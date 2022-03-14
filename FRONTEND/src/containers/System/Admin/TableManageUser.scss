@@ -1,0 +1,23 @@
+.users-container{
+    padding-bottom: 20px;
+
+    #customers{
+        th{
+            background-color: #2776bd;
+        }
+    }
+
+    .edit{
+        color: orange;
+        cursor: pointer;
+        padding: 5px;
+        float: left;
+    }
+
+    .delete{
+        color: red;
+        cursor: pointer;
+        padding: 5px;
+        float: left;
+    }
+}

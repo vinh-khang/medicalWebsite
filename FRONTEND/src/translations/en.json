@@ -1,0 +1,82 @@
+{
+    "homeheader": {
+        "register": "MEDICAL REGISTER",
+        "phone": "CONSULTATION PHONE",
+        "intro": "ABOUT US",
+        "service": "service",
+        "specialist": "specialist",
+        "team": "team of doctors",
+        "manual": "User manual",
+        "search": "Search"
+    },
+    "common": {
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
+        "decentralize": "Decentralize",
+        "close": "Close",
+        "save": "Save",
+        "refresh": "Refresh",
+        "accept": "Accept",
+        "confirm": "Confirm",
+        "confirm-this-task": "Are you sure to process this task?",
+        "fail-to-load-data": "Fail to load data",
+        "unknown-error": "There was an error",
+        "internal-server-error": "Internal server error",
+        "bad-request": "Bad request",
+        "forbiden-request": "Invalid input data",
+        "fail-to-load-all-code": "Fail to load data from allcode",
+        "sum": "Sum",
+        "date-range-invalid": "Date range invalid"
+    },
+    "login": {
+        "login": "Login",
+        "username": "Username",
+        "password": "Password",
+        "userpass-wrong": "Invalid username or password!",
+        "welcome": "Welcome, "
+    },
+    "menu": {
+        "system": {
+            "header": "System",
+            "system-administrator": {
+                "header": "System Administrator",
+                "user-manage": "User manage",
+                "user-redux": "User redux manage",
+                "register-package-group-or-account": "Register service package for group/account"
+            },
+            "system-parameter": {
+                "header": "System-parameter"
+            }
+        },
+        "admin": {
+            "user": "User",
+            "clinic": "Clinic",
+            "specialty": "Specialty",
+            "handbook": "Handbook",
+            "crud-user": "CRUD user",
+            "crud-redux": "CRUD Redux",
+            "manage-admin": "Manage admin",
+            "manage-doctor": "Manage Doctor",
+            "manage-specialty": "Manage Specialty",
+            "manage-clinic": "Manage Clinic",
+            "manage-handbook": "Manage Handbook"
+        }
+    },
+    "user_manage": {
+        "firstname": "First name",
+        "lastname": "Last name",
+        "phone": "Phone number",
+        "address": "Address detail",
+        "gender": "Gender",
+        "position": "Position",
+        "role": "Role",
+        "image": "Image",
+        "add": "Add",
+        "create_title": "CREATE NEW USER",
+        "edit_title": "UPDATE USER INFORMATION",
+        "upload": "Upload image",
+        "create": "Create new user",
+        "edit": "Update"
+    }
+}

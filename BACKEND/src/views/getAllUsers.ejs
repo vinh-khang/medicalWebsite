@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title Page</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="text-center">Hello World</h1>
+    <table>
+        <tr>
+            <td>Email</td>
+            <td>First name</td>
+            <td>Last name</td>
+            <td>Address</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <% for(let i=0; i < dataTable.length; i++) { %>
+        <tr>
+            <td>
+                <%= dataTable[i].email %>
+            </td>
+            <td>
+                <%= dataTable[i].firstname %>
+            </td>
+            <td>
+                <%= dataTable[i].lastname %>
+            </td>
+            <td>
+                <%= dataTable[i].address %>
+            </td>
+            <td><a href="/edit-crud?id=<%= dataTable[i].id %>">Edit</a></td>
+            <td><a href="/delete-crud?id=<%= dataTable[i].id %>">Delete</a></td>
+        </tr>
+        <% } %>
+            </tr>
+    </table>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+
+</html>

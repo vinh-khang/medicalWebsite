@@ -1,0 +1,83 @@
+{
+    "homeheader": {
+        "register": "ĐĂNG KÝ KHÁM",
+        "phone": "TỔNG ĐÀI TƯ VẤN",
+        "intro": "VỀ CHÚNG TÔI",
+        "service": "DỊCH VỤ",
+        "specialist": "CHUYÊN KHOA",
+        "team": "ĐỘI NGŨ BÁC SĨ",
+        "manual": "HƯỚNG DẪN SỬ DỤNG",
+        "search": "Tìm kiếm"
+    },
+    "common": {
+        "add": "Thêm",
+        "edit": "Sửa",
+        "delete": "Xóa",
+        "decentralize": "Phân quyền",
+        "close": "Đóng",
+        "save": "Lưu",
+        "refresh": "Refresh",
+        "accept": "Chấp nhận",
+        "confirm": "Xác nhận",
+        "confirm-this-task": "Bạn có chắc chắn thực hiện tác vụ này?",
+        "fail-to-load-data": "Không thể tải về dữ liệu",
+        "unknown-error": "Có lỗi xảy ra",
+        "internal-server-error": "Lỗi kết nối",
+        "bad-request": "Yêu cầu không hợp lệ",
+        "forbiden-request": "Thông tin truyền vào không hợp lệ",
+        "fail-to-load-all-code": "Không thể tải về dữ liệu allcode",
+        "sum": "Tổng",
+        "date-range-invalid": "Khoảng thời gian không hợp lệ"
+    },
+    "login": {
+        "login": "Đăng nhập",
+        "username": "Tên đăng nhập",
+        "password": "Mật khẩu",
+        "userpass-wrong": "Sai tên đăng nhập hoặc mật khẩu!",
+        "welcome": "Xin chào, "
+    },
+    "menu": {
+        "system": {
+            "header": "Hệ thống",
+            "system-administrator": {
+                "header": "Quản trị hệ thống",
+                "user-manage": "Quản lý người sử dụng",
+                "user-redux": "Quản lý người dùng redux",
+                "register-package-group-or-account": "Đăng ký gói dịch vụ cho nhóm/tài khoản"
+            },
+            "system-parameter": {
+                "header": "Tham số hệ thống"
+            }
+        },
+        "admin": {
+            "user": "Người dùng",
+            "clinic": "Phòng khám",
+            "specialty": "Chuyên khoa",
+            "handbook": "Cẩm nang",
+            "user": "Người dùng",
+            "crud-user": "CRUD người dùng",
+            "crud-redux": "CRUD Redux",
+            "manage-admin": "Quản lý admin",
+            "manage-doctor": "Quản lý Bác sĩ",
+            "manage-specialty": "Quản lý Chuyên khoa",
+            "manage-clinic": "Quản lý phòng khám",
+            "manage-handbook": "Quản lý Cẩm nang"
+        }
+    },
+    "user_manage": {
+        "firstname": "Tên",
+        "lastname": "Họ",
+        "phone": "SĐT",
+        "address": "Địa chỉ",
+        "gender": "Giới tính",
+        "position": "Vị trí",
+        "role": "Vai trò",
+        "image": "Ảnh",
+        "add": "Thêm",
+        "create_title": "TẠO NGƯỜI DÙNG MỚI",
+        "edit_title": "CẬP NHẬT THÔNG TIN NGƯỜI DÙNG",
+        "upload": "Tải ảnh",
+        "create": "Tạo người dùng mới",
+        "edit": "Cập nhật"
+    }
+}

@@ -1,0 +1,277 @@
+.homeheader-container {
+    height: 110px;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10000;
+    width: 100%;
+
+    .homeheader-content{
+        width: 100%;
+        height: 100%;
+        display: flex;
+
+        .left-content{
+            width: 25%;
+            
+            display: flex;
+
+            .header-logo{
+                background: url('../../assets/images/megahealth.png') center center no-repeat;
+                background-size: 350px;
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+            }
+        }       
+
+        .right-content{
+            width: 75%;
+
+
+            .header-top{
+                height: 60px;
+                padding: 10px;
+                width: 100%;
+                display: flex;
+
+                .search{
+                    width: 30%;
+                    height: 40px;
+                    margin-left: 20px;
+                    padding: 0px 10px;
+                    border: 1px solid #d4d4d4;
+                    border-radius: 3px;
+                    
+                }
+
+                .header-register{
+                    background: linear-gradient(45deg,#9beaff 1%,#346fdb);
+                    // height: 40px;
+                    // width: 15%;
+                    border-radius: 5px;
+                    color: white;
+                    font-weight: 700;
+                    text-align: center;
+                    padding: 5px 10px;
+                    margin: 0px 20px;
+                    height: 35px;
+                    cursor: pointer;
+
+                }
+
+                .header-phone{
+                    background: linear-gradient(90deg,#020024,#ff4c4c 0,#ff3030 25%);
+                    // height: 40px;
+                    // width: 15%;
+                    border-radius: 5px;
+                    color: white;
+                    font-weight: 700;
+                    text-align: center;
+                    padding: 5px 10px;
+                    margin: 0px 20px;
+                    height: 35px;
+                    cursor: pointer;
+
+                }
+
+
+                .search:focus{
+                    outline: 1px solid #d4d4d4;
+                }
+
+                .search-btn{
+                    cursor: pointer;
+                    color: #2776bd;
+                    background-color: white;
+                    margin-left: -35px;
+                    border: 1px solid #d4d4d4;
+                    border-radius: 0px 3px 3px 0px;
+                    .fa-search{
+                        padding: 10px;
+                    }
+                }
+
+                .header-language{
+                    border-radius: 50%;
+                    width: 100%;
+                    height: 100%;
+                    padding: 10px;
+                    margin-left: 20px;
+                    cursor: pointer;
+
+                    .language-flag{
+                        width: 30px;
+                        height: 20px;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        margin-top: -6px;
+                        margin-right: 10px;
+                        opacity: 0.6;
+                    }
+
+                    .active{
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .header-bot{
+                height: 40px;
+                padding: 0px 10px;
+                width: 100%;
+                display: flex;
+               
+                 .center-content{
+                    display: flex;
+                    margin-left: 250px;
+
+                    .child-content{
+                        padding: 5px 10px;
+                        color: #2776bd;
+                        margin: auto;
+                        font-weight: 700;
+                        cursor: pointer;
+                        text-transform: uppercase;
+                        
+                      
+                    }
+
+                    .dropdown-content {
+                        display: none;
+                        position: absolute;
+                        background-color: #f9f9f9;
+                        min-width: 160px;
+                        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                        padding: 12px 16px;
+                        z-index: 1;
+                      }
+
+                      .child-content:hover .dropdown-content {
+                        display: block;
+                      }
+
+                }
+            }
+
+         
+        }
+    }
+}
+
+.section-container{
+    height: 260px;
+    color: black;
+    
+    .section-content{
+        padding: 10px 40px;
+    .title-section{
+        text-transform: uppercase;
+        font-weight: 800;
+        font-size: 25px;
+        text-align: center;
+        margin-bottom: 10px;
+        color: #27519e;
+
+    }
+    .slider-child{
+        position: relative;
+        height: 200px;
+        padding: 10px;
+        cursor: pointer;
+
+        .slider-section{
+            width: 70%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 130px;
+            background: linear-gradient(180deg,#299ae2,#27519e);
+            border-radius: 10px;
+            align-items: center;
+            margin: auto;
+            overflow: hidden;
+
+            .services-img{
+                width: 100%;
+                text-align: center;
+                margin: auto;
+            }
+
+
+        }
+
+        .slider-doctor-section{
+            width: 50%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 130px;
+            border-radius: 50%;
+            align-items: center;
+            margin: auto;
+            overflow: hidden;
+
+            img{
+                height: 100% !important;
+                width: 100% !important;
+            }
+           
+        }
+
+                    
+        .doctor-name{
+            text-align: center;
+            margin-top: 10px;
+            color: #27519e;
+            text-transform: capitalize;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .doctor-specialty{
+            text-align: center;
+            font-size: 20px;
+            color: #6b6b6b;
+        }
+        
+    }
+}
+}
+
+.slick-prev{
+    left: 0 !important;
+    margin-left: -20px;
+}
+
+.slick-next{
+    right: 0 !important;
+    margin-right: -20px;
+    
+}
+
+.slick-prev:hover,
+.slick-next:hover{
+    color: #27519e;
+}
+
+.slick-prev::before,
+.slick-next::before{
+    color: #299ae2;
+    font-size: 30px;
+}
+
+.slick-prev,
+.slick-next{
+    z-index: 1000;
+
+    width: 40px;
+    height: 40px;
+}
+
+// .slick-next{
+//     z-index: 1000;
+//     color: black;
+//     border: 1px solid red;
+//     right: 0 !important;
+// }
