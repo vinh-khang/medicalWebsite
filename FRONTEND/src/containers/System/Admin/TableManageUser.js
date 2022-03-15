@@ -42,7 +42,7 @@ class UserManage extends Component {
         console.log(arrUsers)
         return (
             <div className="users-container">
-                <div className='title text-center'>Manage users</div>
+                <div className='title text-center'>ỦA ALO</div>
                 <div className='users-table mt-4 mx-3'>
                     <table id="customers">
                         <thead>
