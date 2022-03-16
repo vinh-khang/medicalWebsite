@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
-import { LANGUAGES, ADMIN_ACTION } from '../../../utils';
+import { LANGUAGES, ADMIN_ACTION, CommonUtils } from '../../../utils';
 import * as actions from '../../../store/actions';
 import TableManageUser from './TableManageUser';
 
@@ -82,14 +82,15 @@ class UserRedux extends Component {
         }
     }
 
-    handlePreviewImage = (e) => {
+    handlePreviewImage = async (e) => {
         let files = e.target.files;
         let file = files[0];
         if (file) {
+            let base64 = await CommonUtils.getBase64(file);
             let objectUrl = URL.createObjectURL(file);
             this.setState({
                 previewImage: objectUrl,
-                image: file
+                image: base64
             })
         }
     }
@@ -138,7 +139,8 @@ class UserRedux extends Component {
                 phonenumber: this.state.phone,
                 gender: this.state.gender,
                 role_id: this.state.role,
-                position_id: this.state.position
+                position_id: this.state.position,
+                image: this.state.image,
             })
         }
 
@@ -154,12 +156,16 @@ class UserRedux extends Component {
                 gender: this.state.gender,
                 role_id: this.state.role,
                 position_id: this.state.position,
-
+                image: this.state.image,
             })
         }
     }
 
     handleEditUser = (user) => {
+        let img64 = '';
+        if (user.image) {
+            img64 = new Buffer(user.image, 'base64').toString('binary');
+        }
         this.setState({
             email: user.email,
             password: 'HARDCODE',
@@ -170,8 +176,8 @@ class UserRedux extends Component {
             gender: user.gender,
             position: user.position_id,
             role: user.role_id,
-            image: user.image,
-            previewImage: user.previewImage,
+            image: '',
+            previewImage: img64,
             action: ADMIN_ACTION.EDIT,
             id: user.id
         })
