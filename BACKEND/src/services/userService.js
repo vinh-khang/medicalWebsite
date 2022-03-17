@@ -191,8 +191,8 @@ let updateUser = (data) => {
                 user.phonenumber = data.phone;
                 user.address = data.address;
                 user.gender = data.gender;
-                user.position = data.position_id;
-                user.role = data.role_id;
+                user.position_id = data.position_id;
+                user.role_id = data.role_id;
                 if (data.image) {
                     user.image = data.image;
                 }

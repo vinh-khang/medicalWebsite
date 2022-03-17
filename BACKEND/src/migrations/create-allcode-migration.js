@@ -2,13 +2,13 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.createTable('allcodes', {
-            allcode_id: {
+            id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            key: {
+            keyMap: {
                 type: Sequelize.STRING
             },
             type: {

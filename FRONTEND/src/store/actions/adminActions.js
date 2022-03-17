@@ -1,5 +1,5 @@
 import actionTypes from './actionTypes';
-import { getAllcode, createUserAPI, getAllUsers, deleteUserAPI, editUserAPI } from '../../services/userService';
+import { getAllcode, createUserAPI, getAllUsers, deleteUserAPI, editUserAPI, getTopDoctor } from '../../services/userService';
 import { toast } from "react-toastify";
 export const fetchGenderStart = () => {
     return async (dispatch, getState) => {
@@ -115,7 +115,9 @@ export const fetchAllUsersStart = () => {
         try {
             dispatch({ type: actionTypes.FETCH_ALL_USER_START })
             let res = await getAllUsers('ALL');
-            console.log(res);
+            let res1 = await getTopDoctor(2);
+            console.log('Bac si');
+            console.log(res1);
             if (res && res.errCode === 0) {
                 dispatch(fetchAllUsersSuccess(res.users.reverse()))
             } else {
