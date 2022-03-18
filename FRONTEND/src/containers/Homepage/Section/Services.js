@@ -28,7 +28,7 @@ class Services extends Component {
                             <div className='slider-section'>
                                 <img className='services-img' src={service} />
                             </div>
-                            <div className='slider-title'>AAAA</div>
+
                         </div>
                         <div className='slider-child'>
                             <div className='slider-section'>

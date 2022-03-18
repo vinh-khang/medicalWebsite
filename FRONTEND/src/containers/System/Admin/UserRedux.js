@@ -41,7 +41,7 @@ class UserRedux extends Component {
             let arrGender = this.props.genders;
             this.setState({
                 arrGender: arrGender,
-                gender: arrGender && arrGender.length > 0 ? arrGender[0].key : ''
+                gender: arrGender && arrGender.length > 0 ? arrGender[0].keyMap : ''
             })
         }
 
@@ -49,7 +49,7 @@ class UserRedux extends Component {
             let positionArr = this.props.positions;
             this.setState({
                 positionArr: positionArr,
-                position: positionArr && positionArr.length > 0 ? positionArr[0].key : ''
+                position: positionArr && positionArr.length > 0 ? positionArr[0].keyMap : ''
             })
         }
 
@@ -57,7 +57,7 @@ class UserRedux extends Component {
             let roleArr = this.props.roles;
             this.setState({
                 roleArr: roleArr,
-                role: roleArr && roleArr.length > 0 ? roleArr[0].key : ''
+                role: roleArr && roleArr.length > 0 ? roleArr[0].keyMap : ''
             })
         }
 
@@ -74,9 +74,9 @@ class UserRedux extends Component {
                 address: '',
                 image: '',
                 previewImage: '',
-                gender: arrGender && arrGender.length > 0 ? arrGender[0].key : '',
-                position: positionArr && positionArr.length > 0 ? positionArr[0].key : '',
-                role: roleArr && roleArr.length > 0 ? roleArr[0].key : '',
+                gender: arrGender && arrGender.length > 0 ? arrGender[0].keyMap : '',
+                position: positionArr && positionArr.length > 0 ? positionArr[0].keyMap : '',
+                role: roleArr && roleArr.length > 0 ? roleArr[0].keyMap : '',
                 action: ADMIN_ACTION.CREATE,
             })
         }
@@ -186,7 +186,7 @@ class UserRedux extends Component {
     render() {
         let { arrGender, positionArr, roleArr, email, password, firstname, lastname, phone, address,
             gender, position, role, image, action, previewImage, isOpen } = this.state;
-        let { language, genders } = this.props;
+        let { language } = this.props;
         return (
             <div className="user-redux-container" >
                 <div className='title'>
@@ -234,8 +234,8 @@ class UserRedux extends Component {
                                     value={gender}>
                                     {arrGender && arrGender.map((gender, index) => {
                                         return (
-                                            language === LANGUAGES.VI ? <option key={index} value={gender.key} >{gender.value_vi}</option> :
-                                                <option key={index} value={gender.key} >{gender.value_en}</option>
+                                            language === LANGUAGES.VI ? <option keyMap={index} value={gender.keyMap} >{gender.value_vi}</option> :
+                                                <option keyMap={index} value={gender.keyMap} >{gender.value_en}</option>
                                         )
                                     })}
                                 </select>
@@ -247,8 +247,8 @@ class UserRedux extends Component {
                                     value={position}>
                                     {positionArr && positionArr.map((position, index) => {
                                         return (
-                                            language === LANGUAGES.VI ? <option key={index} value={position.key}  >{position.value_vi}</option> :
-                                                <option key={index} value={position.key}  >{position.value_en}</option>
+                                            language === LANGUAGES.VI ? <option keyMap={index} value={position.keyMap}  >{position.value_vi}</option> :
+                                                <option keyMap={index} value={position.keyMap}  >{position.value_en}</option>
                                         )
                                     })}
                                 </select>
@@ -260,8 +260,8 @@ class UserRedux extends Component {
                                     value={role}>
                                     {roleArr && roleArr.map((role, index) => {
                                         return (
-                                            language === LANGUAGES.VI ? <option key={index} value={role.key} >{role.value_vi}</option> :
-                                                <option key={index} value={role.key} >{role.value_en}</option>
+                                            language === LANGUAGES.VI ? <option keyMap={index} value={role.keyMap} >{role.value_vi}</option> :
+                                                <option keyMap={index} value={role.keyMap} >{role.value_en}</option>
                                         )
                                     })}
                                 </select>
