@@ -38,6 +38,39 @@ let getTopDoctor = (limit) => {
     })
 }
 
+let getAllDoctor = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let doctors = await db.User.findAll({
+                order: [["id", "DESC"]],
+                where: { role_id: 'R2' },
+                attributes: {
+                    exclude: ['password', 'image']
+                },
+                raw: true,
+                nest: true
+            });
+
+            if (!doctors) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'List Doctors is empty!!!'
+                });
+            }
+
+            resolve({
+                errCode: 0,
+                errMessage: 'OK',
+                doctors,
+            });
+        }
+        catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     getTopDoctor,
+    getAllDoctor,
 }

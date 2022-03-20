@@ -8,6 +8,13 @@ let handleGetTopDoctor = async (req, res) => {
     return res.status(200).json(data);
 }
 
+let handleGetAllDoctor = async (req, res) => {
+    let data = await doctorService.getAllDoctor();
+
+    return res.status(200).json(data);
+}
+
 module.exports = {
     handleGetTopDoctor,
+    handleGetAllDoctor,
 }

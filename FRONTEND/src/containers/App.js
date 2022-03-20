@@ -11,8 +11,8 @@ import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authenticati
 import { path } from '../utils'
 
 import Home from '../routes/Home';
-// import Login from '../routes/Login';
 import Login from './Auth/Login';
+import DoctorManage from './System/Admin/Doctor/DoctorManage';
 import Homepage from './Homepage/Homepage';
 import System from '../routes/System';
 
@@ -49,6 +49,7 @@ class App extends Component {
                                 <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                                 <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
                                 <Route path={path.HOMEPAGE} exact component={(Homepage)} />
+                                <Route path={path.DOCTORMANAGE} exact component={(DoctorManage)} />
                             </Switch>
                         </span>
 

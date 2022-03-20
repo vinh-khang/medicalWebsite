@@ -9,6 +9,9 @@
         "manual": "User manual",
         "search": "Search"
     },
+    "homecontent": {
+        "top_doctor": "Weekly outstanding doctors"
+    },
     "common": {
         "add": "Add",
         "edit": "Edit",

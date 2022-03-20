@@ -46,7 +46,7 @@ class HomeHeader extends Component {
                                         <img className={language === LANGUAGES.EN ? "language-flag active" : "language-flag"} src={usaflag} alt="Logo" onClick={() => this.changeLanguage(LANGUAGES.EN)} />
                                     </div>
                                 </div>
-                                <div className='header-register'>
+                                <div className='header-register'><i className="fas fa-edit" />
                                     <FormattedMessage id="homeheader.register" />
                                 </div>
                                 <div className='header-phone'>

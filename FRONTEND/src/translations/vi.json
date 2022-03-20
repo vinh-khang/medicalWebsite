@@ -9,6 +9,9 @@
         "manual": "HƯỚNG DẪN SỬ DỤNG",
         "search": "Tìm kiếm"
     },
+    "homecontent": {
+        "top_doctor": "Bác sĩ nổi bật trong tuần"
+    },
     "common": {
         "add": "Thêm",
         "edit": "Sửa",

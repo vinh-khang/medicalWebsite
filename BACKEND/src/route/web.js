@@ -20,6 +20,7 @@ let initWebRoutes = (app) => {
     router.get('/api/allcode', userController.handleGetAllcode);
 
     router.get('/api/get-top-doctor', doctorController.handleGetTopDoctor);
+    router.get('/api/get-all-doctor', doctorController.handleGetAllDoctor);
     return app.use("/", router);
 }
 

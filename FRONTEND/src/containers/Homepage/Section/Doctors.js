@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Slider from "react-slick";
 import * as actions from '../../../store/actions';
 import { FormattedMessage } from 'react-intl';
+import { LANGUAGES } from '../../../utils/constant';
 
 class Doctors extends Component {
     constructor(props) {
@@ -35,12 +36,12 @@ class Doctors extends Component {
             slidesToScroll: 1
         };
         let { topDoctors } = this.state;
-        console.log(topDoctors);
+        let { language } = this.props;
         return (
             <div className="doctor-container">
 
                 <div className='doctor-content'>
-                    <div className='title-doctor'>BÁC SĨ NỔI BẬT TRONG TUẦN</div>
+                    <div className='title-doctor'><FormattedMessage id="homecontent.top_doctor" /></div>
                     <Slider {...settings}>
                         {topDoctors && topDoctors.map((doctor, index) => {
                             let img64 = '';
@@ -48,6 +49,7 @@ class Doctors extends Component {
                                 img64 = new Buffer(doctor.image, 'base64').toString('binary');
                             }
                             let name_vi = `${doctor.positionData.value_vi} ${doctor.lastname} ${doctor.firstname}`;
+                            let name_en = `${doctor.positionData.value_en} ${doctor.lastname} ${doctor.firstname}`;
                             return (
                                 <div key={index} className='slider-child'>
                                     <div className='slider-doctor-section'>
@@ -56,7 +58,7 @@ class Doctors extends Component {
                                         />
 
                                     </div>
-                                    <div className='doctor-name'>{name_vi}</div>
+                                    <div className='doctor-name'>{language === LANGUAGES.VI ? name_vi : name_en}</div>
                                     <div className='doctor-specialty'>Da liễu</div>
                                 </div>
                             )
@@ -72,6 +74,7 @@ class Doctors extends Component {
 const mapStateToProps = state => {
     return {
         topDoctors: state.admin.topDoctors,
+        language: state.app.language,
     };
 };
 

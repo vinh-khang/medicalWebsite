@@ -5,6 +5,22 @@ import { LANGUAGES } from '../../../utils';
 import * as actions from '../../../store/actions';
 import './TableManageUser.scss';
 
+// import MarkdownIt from 'markdown-it';
+// import MdEditor from 'react-markdown-editor-lite';
+// // import style manually
+// import 'react-markdown-editor-lite/lib/index.css';
+
+// // Register plugins if required
+// // MdEditor.use(YOUR_PLUGINS_HERE);
+
+// // Initialize a markdown parser
+// const mdParser = new MarkdownIt(/* Markdown-it options */);
+
+// // Finish!
+// function handleEditorChange({ html, text }) {
+//     console.log('handleEditorChange', html, text);
+// }
+
 class UserManage extends Component {
 
     constructor(props) {
@@ -41,41 +57,47 @@ class UserManage extends Component {
         let { arrUsers } = this.state;
         console.log(arrUsers)
         return (
-            <div className="users-container">
-                <div className='title text-center'>ỦA ALO</div>
-                <div className='users-table mt-4 mx-3'>
-                    <table id="customers">
-                        <thead>
-                            <tr>
-                                <th>Email</th>
-                                <th><FormattedMessage id="user_manage.firstname" /></th>
-                                <th><FormattedMessage id="user_manage.lastname" /></th>
-                                <th><FormattedMessage id="user_manage.address" /></th>
-                                <th style={{ width: "150px" }}></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                arrUsers && arrUsers.map((user, index) => {
-                                    return (
-                                        <tr key={index}>
-                                            <td>{user.email}</td>
-                                            <td>{user.firstname}</td>
-                                            <td>{user.lastname}</td>
-                                            <td>{user.address}</td>
-                                            <td>
-                                                <div className='mx-3 edit' onClick={() => this.editUser(user)}><i class="fas fa-edit"></i></div>
-                                                <div className='mx-3 delete' onClick={() => this.deleteUser(user.id)}><i class="fas fa-trash-alt"></i></div>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                            }
+            <React.Fragment>
+                <div className="users-container">
+                    <div className='title text-center'>ỦA ALO</div>
+                    <div className='users-table mt-4 mx-3'>
+                        <table id="customers">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th><FormattedMessage id="user_manage.firstname" /></th>
+                                    <th><FormattedMessage id="user_manage.lastname" /></th>
+                                    <th><FormattedMessage id="user_manage.address" /></th>
+                                    <th style={{ width: "150px" }}></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    arrUsers && arrUsers.map((user, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td>{user.email}</td>
+                                                <td>{user.firstname}</td>
+                                                <td>{user.lastname}</td>
+                                                <td>{user.address}</td>
+                                                <td>
+                                                    <div className='mx-3 edit' onClick={() => this.editUser(user)}><i class="fas fa-edit"></i></div>
+                                                    <div className='mx-3 delete' onClick={() => this.deleteUser(user.id)}><i class="fas fa-trash-alt"></i></div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                }
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+                {/* <MdEditor
+                    style={{ height: '500px' }}
+                    renderHTML={text => mdParser.render(text)}
+                    onChange={handleEditorChange} /> */}
+            </React.Fragment>
         );
     }
 
