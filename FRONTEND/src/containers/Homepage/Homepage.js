@@ -17,7 +17,7 @@ class Homepage extends Component {
 
         return (
             <div>
-                <HomeHeader />
+                <HomeHeader isShow={true} />
                 <Specialty />
                 <Services />
                 <Doctors />

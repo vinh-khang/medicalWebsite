@@ -4,15 +4,11 @@ import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'connected-react-router';
 import { history } from '../redux'
 import { ToastContainer } from 'react-toastify';
-
-
 import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authentication';
-
 import { path } from '../utils'
-
 import Home from '../routes/Home';
 import Login from './Auth/Login';
-import DoctorManage from './System/Admin/Doctor/DoctorManage';
+import DetailDoctor from './Patient/Doctor/DetailDoctor';
 import Homepage from './Homepage/Homepage';
 import System from '../routes/System';
 
@@ -49,7 +45,7 @@ class App extends Component {
                                 <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                                 <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
                                 <Route path={path.HOMEPAGE} exact component={(Homepage)} />
-                                <Route path={path.DOCTORMANAGE} exact component={(DoctorManage)} />
+                                <Route path="/users/:id" exact component={(DetailDoctor)} />
                             </Switch>
                         </span>
 

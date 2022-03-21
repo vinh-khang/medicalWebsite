@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import * as actions from '../../../store/actions';
 import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../../utils/constant';
+import { withRouter } from 'react-router';
 
 class Doctors extends Component {
     constructor(props) {
@@ -23,8 +24,11 @@ class Doctors extends Component {
             this.setState({
                 topDoctors: topDoctors,
             });
-            console.log('vo roi');
         }
+    }
+
+    getDetailedDoctor = (doctor) => {
+        this.props.history.push(`/users/${doctor.id}`);
     }
 
     render() {
@@ -51,7 +55,7 @@ class Doctors extends Component {
                             let name_vi = `${doctor.positionData.value_vi} ${doctor.lastname} ${doctor.firstname}`;
                             let name_en = `${doctor.positionData.value_en} ${doctor.lastname} ${doctor.firstname}`;
                             return (
-                                <div key={index} className='slider-child'>
+                                <div key={index} className='slider-child' onClick={() => this.getDetailedDoctor(doctor)}>
                                     <div className='slider-doctor-section'>
                                         <img className='doctor-img'
                                             style={{ backgroundImage: `url(${img64})` }}
@@ -84,4 +88,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Doctors);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Doctors));

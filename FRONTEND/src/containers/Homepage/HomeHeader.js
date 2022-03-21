@@ -80,9 +80,12 @@ class HomeHeader extends Component {
                         </div>
                     </div>
                 </div>
-                <div className='banner-content'>
-                    <img className="banner-image" src={banner} alt="Logo" />
-                </div>
+                {this.props.isShow && (
+                    <div className='banner-content'>
+                        <img className="banner-image" src={banner} alt="Logo" />
+                    </div>)
+                }
+
             </Fragment>
         );
     }

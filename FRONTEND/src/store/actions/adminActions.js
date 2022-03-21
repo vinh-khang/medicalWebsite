@@ -1,5 +1,5 @@
 import actionTypes from './actionTypes';
-import { getAllcode, createUserAPI, getAllUsers, deleteUserAPI, editUserAPI, getTopDoctor } from '../../services/userService';
+import { getAllcode, createUserAPI, getAllUsers, deleteUserAPI, editUserAPI, getTopDoctor, getAllDoctor, createMoreInfoDoctor, getDoctorById } from '../../services/userService';
 import { toast } from "react-toastify";
 export const fetchGenderStart = () => {
     return async (dispatch, getState) => {
@@ -91,7 +91,7 @@ export const createUserStart = (data) => {
                 dispatch(fetchAllUsersStart());
             } else {
                 dispatch(createUserFailed());
-                toast.success("Your Email is existed!")
+                toast.error("Your Email is existed!")
             }
         } catch (e) {
             dispatch(createUserFailed());
@@ -119,7 +119,6 @@ export const fetchAllUsersStart = () => {
                 dispatch(fetchAllUsersSuccess(res.users.reverse()))
             } else {
                 dispatch(fetchAllUsersFailed());
-                console.log()
             }
         } catch (e) {
             dispatch(fetchAllUsersFailed());
@@ -143,14 +142,13 @@ export const deleteUserStart = (id) => {
         try {
             dispatch({ type: actionTypes.DELETE_USER_START })
             let res = await deleteUserAPI(id);
-            // console.log(id);
             if (res && res.errCode === 0) {
                 dispatch(deleteUserSuccess());
                 toast.success("Delete user successfully!");
                 dispatch(fetchAllUsersStart());
             } else {
                 dispatch(deleteUserFailed());
-                toast.success("Delete user failed!");
+                toast.error("Delete user failed!");
             }
         } catch (e) {
             dispatch(deleteUserFailed());
@@ -199,8 +197,6 @@ export const fetchTopDoctorStart = () => {
         try {
             dispatch({ type: actionTypes.FETCH_TOP_DOCTOR_SUCCESS })
             let res = await getTopDoctor(8);
-            console.log(res);
-            console.log('alo');
             if (res && res.errCode === 0) {
                 dispatch(fetchTopDoctorSuccess(res.doctors))
             } else {
@@ -219,6 +215,60 @@ export const fetchTopDoctorSuccess = (TopDoctorData) => ({
 
 export const fetchTopDoctorFailed = () => ({
     type: actionTypes.FETCH_TOP_DOCTOR_FAILED
+})
+
+
+//All doctor
+export const fetchAllDoctorsStart = () => {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: actionTypes.FETCH_ALL_DOCTOR_SUCCESS })
+            let res = await getAllDoctor();
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllDoctorsSuccess(res.doctors))
+            } else {
+                dispatch(fetchAllDoctorsFailed());
+            }
+        } catch (e) {
+            dispatch(fetchAllDoctorsFailed());
+        }
+    }
+}
+
+export const fetchAllDoctorsSuccess = (AllDoctorData) => ({
+    type: actionTypes.FETCH_ALL_DOCTOR_SUCCESS,
+    data: AllDoctorData
+})
+
+export const fetchAllDoctorsFailed = () => ({
+    type: actionTypes.FETCH_ALL_DOCTOR_FAILED
+})
+
+//All doctor
+export const createMoreInfoDoctorStart = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: actionTypes.CREATE_MORE_INFO_DOCTOR_SUCCESS })
+            let res = await createMoreInfoDoctor(data);
+            if (res && res.errCode === 0) {
+                dispatch(createMoreInfoDoctorSuccess());
+                toast.success("Add more information for doctor successfully!");
+            } else {
+                dispatch(createMoreInfoDoctorFailed());
+                toast.error("Add more information for doctor unsuccessfully!");
+            }
+        } catch (e) {
+            dispatch(createMoreInfoDoctorFailed());
+        }
+    }
+}
+
+export const createMoreInfoDoctorSuccess = () => ({
+    type: actionTypes.CREATE_MORE_INFO_DOCTOR_SUCCESS,
+})
+
+export const createMoreInfoDoctorFailed = () => ({
+    type: actionTypes.CREATE_MORE_INFO_DOCTOR_FAILED
 })
 
 

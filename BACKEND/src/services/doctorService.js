@@ -22,7 +22,7 @@ let getTopDoctor = (limit) => {
             if (!doctors) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Doctors do not exist!!!'
+                    errMessage: 'Doctors is not existed!!!'
                 });
             }
 
@@ -47,6 +47,10 @@ let getAllDoctor = () => {
                 attributes: {
                     exclude: ['password', 'image']
                 },
+                include: [
+                    { model: db.Allcode, as: 'positionData', attributes: ['value_en', 'value_vi'] },
+                    { model: db.Allcode, as: 'genderData', attributes: ['value_en', 'value_vi'] },
+                ],
                 raw: true,
                 nest: true
             });
@@ -70,7 +74,67 @@ let getAllDoctor = () => {
     })
 }
 
+let createDetailedInfoDoctor = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (data) {
+                await db.DetailedInformation.create({
+                    contentHTML: data.contentHTML,
+                    contentMarkdown: data.contentMarkdown,
+                    description: data.description,
+                    doctor_id: data.selectedOption.value,
+                })
+
+                resolve({
+                    errCode: 0,
+                    errMessage: 'OK'
+                });
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+let getDoctorById = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let doctors = await db.User.findOne({
+                where: { id: id },
+                attributes: {
+                    exclude: ['password']
+                },
+                include: [
+                    { model: db.Allcode, as: 'positionData', attributes: ['value_en', 'value_vi'] },
+                    { model: db.DetailedInformation, attributes: ['contentHTML', 'contentMarkdown', 'description'] }
+                ],
+                raw: true,
+                nest: true
+            });
+
+            if (!doctors) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Doctors is not existed!!!',
+                    doctors: {},
+                });
+            }
+
+            resolve({
+                errCode: 0,
+                errMessage: 'OK',
+                doctors,
+            });
+        }
+        catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     getTopDoctor,
     getAllDoctor,
+    createDetailedInfoDoctor,
+    getDoctorById,
 }

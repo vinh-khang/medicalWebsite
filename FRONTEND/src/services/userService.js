@@ -28,5 +28,17 @@ const getTopDoctor = (limit) => {
     return axios.get(`/api/get-top-doctor?limit=${limit}`);
 }
 
+const getAllDoctor = () => {
+    return axios.get(`/api/get-all-doctor`);
+}
 
-export { handleLoginAPI, getAllUsers, createUserAPI, deleteUserAPI, editUserAPI, getAllcode, getTopDoctor }
+const createMoreInfoDoctor = (data) => {
+    return axios.post('/api/create-detailed-info-doctor', data)
+}
+
+const getDoctorById = (id) => {
+    return axios.get(`/api/get-doctor-by-id?id=${id}`)
+}
+
+
+export { handleLoginAPI, getAllUsers, createUserAPI, deleteUserAPI, editUserAPI, getAllcode, getTopDoctor, getAllDoctor, createMoreInfoDoctor, getDoctorById }
