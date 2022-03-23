@@ -7,6 +7,7 @@ import usaflag from '../../assets/images/usa.png';
 import banner from '../../assets/images/banner1.jpg';
 import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../utils';
+import { withRouter } from 'react-router';
 // import Navigator from '../../components/Navigator';
 // // import { adminMenu } from './menuApp';
 import './Homepage.scss';
@@ -23,6 +24,12 @@ class HomeHeader extends Component {
         this.props.changeLanguageRedux(language)
     }
 
+    returnToHome = () => {
+        if (this.props.history) {
+            this.props.history.push('/homepage')
+        }
+    }
+
     render() {
         const { language, admin } = this.props;
         const { search } = this.state;
@@ -31,8 +38,8 @@ class HomeHeader extends Component {
             <Fragment>
                 <div className="homeheader-container">
                     <div className="homeheader-content">
-                        <div className="left-content">
-                            <div className="header-logo"></div>
+                        <div className="left-content" onClick={() => this.returnToHome()}>
+                            <div className="header-logo" ></div>
                         </div>
                         <div className="right-content">
                             <div className='header-top'>
@@ -107,4 +114,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeHeader));

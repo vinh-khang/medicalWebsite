@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { LANGUAGES, CommonUtils } from '../../../../utils';
+import { LANGUAGES, CommonUtils, ADMIN_ACTION } from '../../../../utils';
 import * as actions from '../../../../store/actions';
 import './DoctorManage.scss';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
+import { getDoctorById } from '../../../../services/userService';
 import Select from 'react-select';
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
@@ -20,6 +21,7 @@ class DoctorManage extends Component {
             contentMarkdown: '',
             description: '',
             allDoctors: [],
+            olDataDoctor: false,
         }
     }
 
@@ -69,10 +71,29 @@ class DoctorManage extends Component {
         })
     }
 
-    handleChange = (selectedOption) => {
+    handleChange = async (selectedOption) => {
         this.setState({
             selectedOption: selectedOption
         })
+        let res = await getDoctorById(selectedOption.value);
+        console.log(res);
+        if (res && res.errCode === 0 && res.doctors && res.doctors.DetailedInformation) {
+            this.setState({
+                contentHTML: res.doctors.DetailedInformation.contentHTML,
+                contentMarkdown: res.doctors.DetailedInformation.contentMarkdown,
+                description: res.doctors.DetailedInformation.description,
+                olDataDoctor: true,
+            })
+        } else {
+            this.setState({
+                contentHTML: '',
+                contentMarkdown: '',
+                description: '',
+                olDataDoctor: false,
+            })
+            console.log('Sai r' + res.data);
+        }
+
     }
 
     handleTextArea = (e) => {
@@ -82,16 +103,14 @@ class DoctorManage extends Component {
     }
 
     saveDetailedInformation = () => {
+        let { olDataDoctor } = this.state;
         this.props.createMoreInfoDoctorStart({
-            selectedOption: this.state.selectedOption,
+            doctor_id: this.state.selectedOption.value,
             contentHTML: this.state.contentHTML,
             contentMarkdown: this.state.contentMarkdown,
             description: this.state.description,
+            action: olDataDoctor === true ? ADMIN_ACTION.EDIT : ADMIN_ACTION.CREATE,
         });
-        this.setState({
-            selectedOption: null,
-            contentHTML: '',
-        })
     }
 
     render() {
@@ -123,7 +142,8 @@ class DoctorManage extends Component {
                         <MdEditor
                             style={{ height: '400px' }}
                             renderHTML={text => mdParser.render(text)}
-                            onChange={this.handleEditorChange} />
+                            onChange={this.handleEditorChange}
+                            value={this.state.contentMarkdown} />
                         <div className='submit'>
                             <button type="submit"
                                 className="btn btn-info mt-3 col-3"

@@ -77,13 +77,36 @@ let getAllDoctor = () => {
 let createDetailedInfoDoctor = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (data) {
-                await db.DetailedInformation.create({
-                    contentHTML: data.contentHTML,
-                    contentMarkdown: data.contentMarkdown,
-                    description: data.description,
-                    doctor_id: data.selectedOption.value,
-                })
+            if (!data.doctor_id || !data.contentHTML || !data.contentMarkdown || !data.action) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing parameters!'
+                });
+            } else {
+                if (data.action === 'CREATE') {
+                    await db.DetailedInformation.create({
+                        contentHTML: data.contentHTML,
+                        contentMarkdown: data.contentMarkdown,
+                        description: data.description,
+                        doctor_id: data.doctor_id,
+                    })
+
+                } else {
+                    if (data.action === 'EDIT') {
+                        let doctor = await db.DetailedInformation.findOne({
+                            where: { doctor_id: data.doctor_id },
+                            raw: false
+                        })
+
+                        if (doctor) {
+                            doctor.contentHTML = data.contentHTML;
+                            doctor.contentMarkdown = data.contentMarkdown;
+                            doctor.description = data.description;
+                            doctor.doctor_id = data.doctor_id;
+                            await doctor.save()
+                        }
+                    }
+                }
 
                 resolve({
                     errCode: 0,
