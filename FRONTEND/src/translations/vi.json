@@ -65,6 +65,9 @@
             "manage-specialty": "Quản lý Chuyên khoa",
             "manage-clinic": "Quản lý phòng khám",
             "manage-handbook": "Quản lý Cẩm nang"
+        },
+        "doctor": {
+            "manage-schedule": "Quản lý KH khám bệnh"
         }
     },
     "user_manage": {

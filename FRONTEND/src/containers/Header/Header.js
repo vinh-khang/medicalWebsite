@@ -4,22 +4,51 @@ import vnflag from '../../assets/images/vn.png';
 import usaflag from '../../assets/images/usa.png';
 import * as actions from "../../store/actions";
 import Navigator from '../../components/Navigator';
-import { adminMenu } from './menuApp';
+import { adminMenu, doctorMenu } from './menuApp';
 import { LANGUAGES } from '../../utils';
 import { FormattedMessage } from 'react-intl';
+import _ from 'lodash';
 import './Header.scss';
 
 class Header extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            menuApp: [],
+
+        }
+    }
+
     changeLanguage = (language) => {
         this.props.changeLanguageRedux(language);
     }
+
+    componentDidMount = () => {
+        let userInfo = this.props.userInfo;
+        let menu = [];
+        if (userInfo && !_.isEmpty(userInfo)) {
+            if (userInfo.role_id === 'R1') {
+                menu = adminMenu;
+            }
+            if (userInfo.role_id === 'R2') {
+                menu = doctorMenu;
+            }
+        }
+        this.setState({
+            menuApp: menu
+        })
+    }
+
     render() {
         const { processLogout, language, userInfo } = this.props;
+        const { menuApp } = this.state;
+
+        console.log(userInfo);
         return (
             <div className="header-container">
                 {/* thanh navigator */}
                 <div className="header-tabs-container">
-                    <Navigator menus={adminMenu} />
+                    <Navigator menus={menuApp} />
                 </div>
 
                 <div className="header-language">

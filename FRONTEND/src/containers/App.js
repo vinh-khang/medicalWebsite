@@ -11,6 +11,7 @@ import Login from './Auth/Login';
 import DetailDoctor from './Patient/Doctor/DetailDoctor';
 import Homepage from './Homepage/Homepage';
 import System from '../routes/System';
+import ManageSchedule from './System/Doctor/ManageSchedule';
 
 import { CustomToastCloseButton } from '../components/CustomToast';
 

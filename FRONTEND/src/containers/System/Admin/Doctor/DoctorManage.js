@@ -161,7 +161,6 @@ class DoctorManage extends Component {
 
 const mapStateToProps = state => {
     return {
-        arrUsers: state.admin.users,
         language: state.app.language,
         allDoctors: state.admin.allDoctors,
     };
@@ -169,11 +168,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchAllUsersStart: () => dispatch(actions.fetchAllUsersStart()),
         fetchAllDoctorsStart: () => dispatch(actions.fetchAllDoctorsStart()),
         createMoreInfoDoctorStart: (data) => dispatch(actions.createMoreInfoDoctorStart(data)),
-        deleteUserStart: (id) => dispatch(actions.deleteUserStart(id)),
-        changeLanguageRedux: (language) => dispatch(actions.changeLanguageApp(language)),
     };
 };
 
