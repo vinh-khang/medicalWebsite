@@ -14,11 +14,14 @@ class ManageSchedule extends Component {
         this.state = {
             selectedOption: null,
             allDoctors: [],
+            currentDate: new Date(),
+            allTime: []
         }
     }
 
     async componentDidMount() {
         this.props.fetchAllDoctorsStart();
+        this.props.getTimeRangeStart();
     }
 
     handleConvertName = (data) => {
@@ -54,6 +57,12 @@ class ManageSchedule extends Component {
                 selectedOption: null,
             })
         }
+
+        if (prevProps.allTime !== this.props.allTime) {
+            this.setState({
+                allTime: this.props.allTime,
+            })
+        }
     }
 
     handleChangeSelect = async (selectedOption) => {
@@ -63,30 +72,60 @@ class ManageSchedule extends Component {
 
     }
 
-    handleChangeDate = () => {
-
+    handleChangeDate = (date) => {
+        this.setState({
+            currentDate: date[0]
+        })
     }
 
     render() {
-        let { selectedOption, allDoctors } = this.state;
-
+        let { selectedOption, allDoctors, currentDate, allTime } = this.state;
+        console.log(allTime);
         return (
             <React.Fragment>
-                <div className="doctor-infor-container">
-                    Hahahahaaha
-                    <Select
-                        value={selectedOption}
-                        onChange={this.handleChangeSelect}
-                        options={allDoctors}
-                    />
-                    <div className='col-6 form-group'>
-                        <DatePicker
-                            onChange={this.handleChangeDate}
-                            className='form-control'
-                        />
+                <div className="manage-schedule-container">
+                    <div className="manage-schedule-content">
+                        <div className='title text-center'>SCHEDULE MANAGE</div>
+                        <div className='manage-schedule'>
+                            <div className='doctor-search'>
+                                <label>Chọn bác sĩ</label>
+                                <Select
+                                    value={selectedOption}
+                                    onChange={this.handleChangeSelect}
+                                    options={allDoctors}
+                                />
+                            </div>
+                            <div className='date-search'>
+                                <label>Chọn ngày</label>
+                                <DatePicker
+                                    onChange={this.handleChangeDate}
+                                    className='form-control'
+                                    minDate={new Date()}
+                                    value={currentDate}
+                                />
+                            </div>
+
+                        </div>
+                        <div className='time-range'>
+                            {allTime && allTime.length > 0 && (
+                                allTime.map((time, index) => {
+                                    return (
+                                        <button className='btn btn-info-custom'>
+                                            {time.value_vi}
+                                        </button>
+                                    )
+                                })
+
+                            )}
+                        </div>
+                        <div className='submit'>
+                            <button type="submit"
+                                className="btn btn-info mt-3 col-3"
+                                onClick><FormattedMessage id="user_manage.add" />
+                            </button>
+                        </div>
                     </div>
                 </div>
-
             </React.Fragment>
         );
     }
@@ -97,6 +136,7 @@ const mapStateToProps = state => {
     return {
         language: state.app.language,
         allDoctors: state.admin.allDoctors,
+        allTime: state.admin.allTime,
     };
 };
 
@@ -104,6 +144,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchAllDoctorsStart: () => dispatch(actions.fetchAllDoctorsStart()),
         createMoreInfoDoctorStart: (data) => dispatch(actions.createMoreInfoDoctorStart(data)),
+        getTimeRangeStart: () => dispatch(actions.getTimeRangeStart()),
     };
 };
 

@@ -271,6 +271,33 @@ export const createMoreInfoDoctorFailed = () => ({
     type: actionTypes.CREATE_MORE_INFO_DOCTOR_FAILED
 })
 
+//All doctor
+export const getTimeRangeStart = () => {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: actionTypes.GET_TIME_RANGE_SUCCESS })
+            let res = await getAllcode('TIME');
+
+            if (res && res.errCode === 0) {
+                dispatch(getTimeRangeSuccess(res.data));
+            } else {
+                dispatch(getTimeRangeFailed());
+            }
+        } catch (e) {
+            dispatch(getTimeRangeFailed());
+        }
+    }
+}
+
+export const getTimeRangeSuccess = (data) => ({
+    type: actionTypes.GET_TIME_RANGE_SUCCESS,
+    data: data
+})
+
+export const getTimeRangeFailed = () => ({
+    type: actionTypes.GET_TIME_RANGE_FAILED
+})
+
 
 
 

@@ -8,6 +8,7 @@ const initialState = {
     users: [],
     topDoctors: [],
     allDoctors: [],
+    allTime: []
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -104,6 +105,16 @@ const adminReducer = (state = initialState, action) => {
 
             }
         case actionTypes.FETCH_ALL_DOCTOR_FAILED:
+            return {
+                ...state,
+            }
+        case actionTypes.GET_TIME_RANGE_SUCCESS:
+            return {
+                ...state,
+                allTime: action.data,
+
+            }
+        case actionTypes.GET_TIME_RANGE_FAILED:
             return {
                 ...state,
             }

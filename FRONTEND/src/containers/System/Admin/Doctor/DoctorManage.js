@@ -147,7 +147,7 @@ class DoctorManage extends Component {
                         <div className='submit'>
                             <button type="submit"
                                 className="btn btn-info mt-3 col-3"
-                                onClick={() => this.saveDetailedInformation()} ><FormattedMessage id="user_manage.create" />
+                                onClick={() => this.saveDetailedInformation()} ><FormattedMessage id="user_manage.add" />
                             </button>
                         </div>
                     </div>
