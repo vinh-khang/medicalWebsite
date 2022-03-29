@@ -59,8 +59,14 @@
             height: 40px;
 
             &:hover{
-                background-color: rgb(240, 240, 240);
+                border: 1px solid #3e8aeb;
             }
+        }
+
+        .active{
+            background-color: #3e8aeb;
+            color: white;
+            border: 1px solid #3e8aeb;
         }
     }
 

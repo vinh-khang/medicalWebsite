@@ -59,6 +59,11 @@ class ManageSchedule extends Component {
         }
 
         if (prevProps.allTime !== this.props.allTime) {
+            let data = this.props.allTime;
+            if (data && data.length > 0) {
+                data = data.map(item => ({ ...item, isSelected: false }))
+            }
+
             this.setState({
                 allTime: this.props.allTime,
             })
@@ -76,6 +81,24 @@ class ManageSchedule extends Component {
         this.setState({
             currentDate: date[0]
         })
+    }
+
+    handleClickBtn = (selectedTime) => {
+        let { allTime } = this.state;
+        if (allTime && allTime.length > 0) {
+            allTime = allTime.map((time, index) => {
+                if (selectedTime.id === time.id) time.isSelected = !time.isSelected;
+                return time;
+            })
+        }
+
+        this.setState({
+            allTime: allTime,
+        })
+    }
+
+    saveScheduleInfo = () => {
+        console.log(this.state)
     }
 
     render() {
@@ -110,7 +133,11 @@ class ManageSchedule extends Component {
                             {allTime && allTime.length > 0 && (
                                 allTime.map((time, index) => {
                                     return (
-                                        <button className='btn btn-info-custom'>
+                                        <button
+                                            className={time.isSelected === true ? 'btn btn-info-custom active' : 'btn btn-info-custom'}
+                                            key={index}
+                                            onClick={() => this.handleClickBtn(time)}
+                                        >
                                             {time.value_vi}
                                         </button>
                                     )
@@ -121,7 +148,7 @@ class ManageSchedule extends Component {
                         <div className='submit'>
                             <button type="submit"
                                 className="btn btn-info mt-3 col-3"
-                                onClick><FormattedMessage id="user_manage.add" />
+                                onClick={() => this.saveScheduleInfo()}><FormattedMessage id="user_manage.add" />
                             </button>
                         </div>
                     </div>
