@@ -4,6 +4,7 @@ import * as actions from '../../../store/actions';
 import HomeHeader from '../../Homepage/HomeHeader';
 import { LANGUAGES, ADMIN_ACTION, CommonUtils } from '../../../utils';
 import './DetailedDoctor.scss';
+import DoctorSchedule from './DoctorSchedule';
 
 class DetailDoctor extends Component {
     constructor(props) {
@@ -63,7 +64,10 @@ class DetailDoctor extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className='booking-doctor'></div>
+                        <div className='booking-doctor'>
+                            <DoctorSchedule
+                                doctorId={doctor} />
+                        </div>
                         <div className='detailed-doctor-markdown'>
                             {doctor && doctor.DetailedInformation
                                 && doctor.DetailedInformation.contentHTML &&

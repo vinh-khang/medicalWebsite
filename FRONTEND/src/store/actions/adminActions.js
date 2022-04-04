@@ -1,5 +1,5 @@
 import actionTypes from './actionTypes';
-import { getAllcode, createUserAPI, getAllUsers, deleteUserAPI, editUserAPI, getTopDoctor, getAllDoctor, createMoreInfoDoctor, getDoctorById } from '../../services/userService';
+import { getAllcode, createUserAPI, getAllUsers, deleteUserAPI, editUserAPI, getTopDoctor, getAllDoctor, createMoreInfoDoctor, getDoctorById, handleBulkCreate } from '../../services/userService';
 import { toast } from "react-toastify";
 export const fetchGenderStart = () => {
     return async (dispatch, getState) => {

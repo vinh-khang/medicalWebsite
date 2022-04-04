@@ -23,7 +23,8 @@ let initWebRoutes = (app) => {
     router.get('/api/get-all-doctor', doctorController.handleGetAllDoctor);
     router.post('/api/create-detailed-info-doctor', doctorController.handleCreateDetailedInfoDoctor);
     router.get('/api/get-doctor-by-id', doctorController.handleGetDoctorById);
-
+    router.post('/api/bulk-create-data', doctorController.handleBulkCreate);
+    router.get('/api/get-doctor-schedule', doctorController.handleGetDoctorSchedule);
     return app.use("/", router);
 }
 

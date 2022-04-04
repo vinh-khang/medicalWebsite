@@ -1,5 +1,8 @@
 import db from "../models/index";
-import bcrypt from 'bcryptjs';
+require('dotenv').config();
+import _, { reject } from 'lodash';
+
+const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE;
 
 let getTopDoctor = (limit) => {
     return new Promise(async (resolve, reject) => {
@@ -155,9 +158,81 @@ let getDoctorById = (id) => {
     })
 }
 
+let handleBulkCreate = async (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let schedule = data.arrSchedule;
+            if (!schedule) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing parameters!',
+                })
+            }
+
+            if (schedule && schedule.length > 0) {
+                schedule.map((item, index) => {
+                    item.max_number = MAX_NUMBER_SCHEDULE;
+                    return item;
+                })
+            }
+
+            let existedSchedule = await db.Schedule.findAll({
+                where: { doctor_id: schedule[0].doctor_id, date: new Date(schedule[0].date) },
+                attributes: ['doctor_id', 'date', 'time_type', 'max_number'],
+                raw: true
+            })
+
+            console.log(schedule[0].date)
+
+            if (existedSchedule && existedSchedule.length > 0) {
+                existedSchedule.map((item, index) => {
+                    item.date = new Date(item.date).getTime();
+                    return item;
+                })
+            }
+
+            let createdValue = _.differenceWith(schedule, existedSchedule, (a, b) => {
+                return a.time_type === b.time_type && a.date === b.date;
+            })
+
+            if (createdValue && createdValue.length > 0) {
+                await db.Schedule.bulkCreate(createdValue);
+            }
+
+            resolve({
+                errCode: 0,
+                errMessage: 'OK',
+            })
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+let handleGetDoctorSchedule = async (id, day) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let existedSchedule = await db.Schedule.findAll({
+                where: { doctor_id: id, date: new Date(+day) },
+                raw: true
+            })
+            resolve({
+                errCode: 0,
+                errMessage: 'OK',
+                existedSchedule,
+            })
+
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
 module.exports = {
     getTopDoctor,
     getAllDoctor,
     createDetailedInfoDoctor,
     getDoctorById,
+    handleBulkCreate,
+    handleGetDoctorSchedule
 }

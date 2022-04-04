@@ -1,0 +1,16 @@
+.doctor-schedule-container{
+    height: 300px;
+    border: 1px solid red;
+    display: flex;
+    .left-schedule{
+        width: 50%;
+        border: 1px solid blue;
+        padding: 20px;
+    }
+
+    .right-booking{
+        width: 50%;
+        border: 1px solid yellow;
+    }
+    
+}

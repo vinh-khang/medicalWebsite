@@ -23,9 +23,23 @@ let handleGetDoctorById = async (req, res) => {
     return res.status(200).json(data);
 }
 
+let handleBulkCreate = async (req, res) => {
+    let data = await doctorService.handleBulkCreate(req.body);
+    return res.status(200).json(data);
+}
+
+let handleGetDoctorSchedule = async (req, res) => {
+    let id = req.query.id;
+    let day = req.query.day;
+    let data = await doctorService.handleGetDoctorSchedule(id, day);
+    return res.status(200).json(data);
+}
+
 module.exports = {
     handleGetTopDoctor,
     handleGetAllDoctor,
     handleCreateDetailedInfoDoctor,
     handleGetDoctorById,
+    handleBulkCreate,
+    handleGetDoctorSchedule,
 }

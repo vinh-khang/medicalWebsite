@@ -6,6 +6,8 @@ import DatePicker from '../../../components/Input/DatePicker';
 import { LANGUAGES } from '../../../utils';
 import * as actions from '../../../store/actions';
 import './ManageSchedule.scss';
+import { toast } from "react-toastify";
+import { saveBulkSchedule } from '../../../services/userService';
 
 class ManageSchedule extends Component {
 
@@ -14,7 +16,7 @@ class ManageSchedule extends Component {
         this.state = {
             selectedOption: null,
             allDoctors: [],
-            currentDate: new Date(),
+            currentDate: null,
             allTime: []
         }
     }
@@ -68,6 +70,8 @@ class ManageSchedule extends Component {
                 allTime: this.props.allTime,
             })
         }
+
+
     }
 
     handleChangeSelect = async (selectedOption) => {
@@ -97,8 +101,49 @@ class ManageSchedule extends Component {
         })
     }
 
-    saveScheduleInfo = () => {
-        console.log(this.state)
+    saveScheduleInfo = async () => {
+        const { selectedOption, currentDate, allTime } = this.state;
+        let result = [];
+        if (!selectedOption) {
+            toast.error('Doctor is empty!');
+            return;
+        }
+        let formatedDate = null;
+        console.log(currentDate);
+        if (!currentDate) {
+            toast.error('Date is not selected!');
+            return;
+        } else {
+            formatedDate = new Date(currentDate).getTime();
+            if (!formatedDate) {
+                toast.error('Min Date is wrong!!!');
+                return;
+            }
+        }
+
+        if (allTime && allTime.length > 0) {
+            let selectedTime = allTime.filter(item => item.isSelected === true);
+            if (selectedTime && selectedTime.length > 0) {
+                selectedTime.map((time, index) => {
+                    let object = {};
+                    object.doctor_id = selectedOption.value;
+                    object.date = formatedDate;
+                    object.time_type = time.keyMap;
+                    result.push(object);
+                })
+            }
+
+        }
+
+        if (result && result.length > 0) {
+            let res = await saveBulkSchedule({
+                arrSchedule: result
+            })
+            toast.success('Add schedule successfully!!!')
+        } else {
+            toast.error('Time range is not selected!');
+            return;
+        }
     }
 
     render() {
