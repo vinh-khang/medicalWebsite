@@ -11,8 +11,12 @@ import Login from './Auth/Login';
 import DetailDoctor from './Patient/Doctor/DetailDoctor';
 import Homepage from './Homepage/Homepage';
 import System from '../routes/System';
+import Booking from './Patient/Booking/Booking';
+import BookingInfo from './Patient/Booking/BookingInfo';
+import PatientLogin from './Patient/Login/PatientLogin';
 import ManageSchedule from './System/Doctor/ManageSchedule';
-
+import ClinicIntro from './System/Clinic/ClinicIntro';
+import _ from 'lodash';
 import { CustomToastCloseButton } from '../components/CustomToast';
 
 class App extends Component {
@@ -36,6 +40,7 @@ class App extends Component {
     }
 
     render() {
+        let { userInfo } = this.props;
         return (
             <Fragment>
                 <Router history={history}>
@@ -46,7 +51,10 @@ class App extends Component {
                                 <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                                 <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
                                 <Route path={path.HOMEPAGE} exact component={(Homepage)} />
-                                <Route path="/users/:id" exact component={(DetailDoctor)} />
+                                <Route path="/doctor/:id" exact component={(DetailDoctor)} />
+                                <Route path="/booking" exact component={(BookingInfo)} />
+                                <Route path="/user-login" exact component={(PatientLogin)} />
+
                             </Switch>
                         </span>
 
@@ -77,7 +85,8 @@ class App extends Component {
 const mapStateToProps = state => {
     return {
         started: state.app.started,
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo,
     };
 };
 

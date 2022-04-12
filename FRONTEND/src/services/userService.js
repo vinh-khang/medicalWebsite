@@ -48,8 +48,17 @@ const getDoctorSchedule = (id, day) => {
     return axios.get(`/api/get-doctor-schedule?id=${id}&day=${day}`)
 }
 
+const getUserByEmail = (email) => {
+    return axios.get(`/api/get-user-by-email?email=${email}`)
+}
+
+const createBookingSchedule = (data) => {
+    return axios.post(`/api/create-booking-schedule`, data)
+}
+
+
 export {
     handleLoginAPI, getAllUsers, createUserAPI, deleteUserAPI, editUserAPI,
     getAllcode, getTopDoctor, getAllDoctor, createMoreInfoDoctor, getDoctorById,
-    saveBulkSchedule, getDoctorSchedule,
+    saveBulkSchedule, getDoctorSchedule, getUserByEmail, createBookingSchedule
 }

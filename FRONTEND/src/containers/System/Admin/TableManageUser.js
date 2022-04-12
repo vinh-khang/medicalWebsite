@@ -40,7 +40,6 @@ class UserManage extends Component {
 
     render() {
         let { arrUsers } = this.state;
-        console.log(arrUsers)
         return (
             <React.Fragment>
                 <div className="users-container">

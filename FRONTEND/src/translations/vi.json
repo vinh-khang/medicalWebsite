@@ -2,12 +2,13 @@
     "homeheader": {
         "register": "ĐĂNG KÝ KHÁM",
         "phone": "TỔNG ĐÀI TƯ VẤN",
-        "intro": "VỀ CHÚNG TÔI",
+        "intro": "Giới thiệu",
         "service": "DỊCH VỤ",
         "specialist": "CHUYÊN KHOA",
         "team": "ĐỘI NGŨ BÁC SĨ",
-        "manual": "HƯỚNG DẪN SỬ DỤNG",
-        "search": "Tìm kiếm"
+        "manual": "Hướng dẫn",
+        "search": "Tìm kiếm",
+        "login": "Đăng nhập"
     },
     "homecontent": {
         "top_doctor": "Bác sĩ nổi bật trong tuần"
@@ -62,8 +63,10 @@
             "crud-redux": "CRUD Redux",
             "manage-admin": "Quản lý admin",
             "manage-doctor": "Quản lý Bác sĩ",
-            "manage-specialty": "Quản lý Chuyên khoa",
-            "manage-clinic": "Quản lý phòng khám",
+            "manage-specialty": "Thêm Chuyên khoa",
+            "edit-specialty": "Cập nhật Chuyên khoa",
+            "show-specialty": "Xem Chuyên khoa",
+            "clinic-intro": "Giới thiệu",
             "manage-handbook": "Quản lý Cẩm nang"
         },
         "doctor": {
@@ -85,5 +88,11 @@
         "upload": "Tải ảnh",
         "create": "Tạo người dùng mới",
         "edit": "Cập nhật"
+    },
+    "specialty": {
+        "specialty_name": "Tên Chuyên khoa",
+        "specialty_icon": "Icon Chuyên khoa",
+        "specialty_price": "Giá khám",
+        "specialty_info": "Thông tin Chuyên khoa"
     }
 }

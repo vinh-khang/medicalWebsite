@@ -17,6 +17,7 @@ let getTopDoctor = (limit) => {
                 include: [
                     { model: db.Allcode, as: 'positionData', attributes: ['value_en', 'value_vi'] },
                     { model: db.Allcode, as: 'genderData', attributes: ['value_en', 'value_vi'] },
+                    { model: db.DoctorDetail, attributes: ['specialty_id'] },
                 ],
                 raw: true,
                 nest: true
@@ -94,6 +95,12 @@ let createDetailedInfoDoctor = (data) => {
                         doctor_id: data.doctor_id,
                     })
 
+                    await db.DoctorDetail.create({
+                        doctor_id: data.doctor_id,
+                        specialty_id: data.specialty_id,
+                    })
+
+
                 } else {
                     if (data.action === 'EDIT') {
                         let doctor = await db.DetailedInformation.findOne({
@@ -107,6 +114,17 @@ let createDetailedInfoDoctor = (data) => {
                             doctor.description = data.description;
                             doctor.doctor_id = data.doctor_id;
                             await doctor.save()
+                        }
+
+                        let specialty = await db.DoctorDetail.findOne({
+                            where: { doctor_id: data.doctor_id },
+                            raw: false
+                        })
+
+                        if (specialty) {
+                            specialty.doctor_id = data.doctor_id;
+                            specialty.specialty_id = data.specialty_id;
+                            await specialty.save();
                         }
                     }
                 }
@@ -132,7 +150,8 @@ let getDoctorById = (id) => {
                 },
                 include: [
                     { model: db.Allcode, as: 'positionData', attributes: ['value_en', 'value_vi'] },
-                    { model: db.DetailedInformation, attributes: ['contentHTML', 'contentMarkdown', 'description'] }
+                    { model: db.DetailedInformation, attributes: ['contentHTML', 'contentMarkdown', 'description'] },
+                    { model: db.DoctorDetail, attributes: ['doctor_id', 'specialty_id'] }
                 ],
                 raw: true,
                 nest: true
@@ -182,8 +201,6 @@ let handleBulkCreate = async (data) => {
                 raw: true
             })
 
-            console.log(schedule[0].date)
-
             if (existedSchedule && existedSchedule.length > 0) {
                 existedSchedule.map((item, index) => {
                     item.date = new Date(item.date).getTime();
@@ -214,7 +231,11 @@ let handleGetDoctorSchedule = async (id, day) => {
         try {
             let existedSchedule = await db.Schedule.findAll({
                 where: { doctor_id: id, date: new Date(+day) },
-                raw: true
+                raw: true,
+                nest: true,
+                include: [
+                    { model: db.Allcode, as: 'scheduleData', attributes: ['value_en', 'value_vi'] },
+                ],
             })
             resolve({
                 errCode: 0,

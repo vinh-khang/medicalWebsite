@@ -1,5 +1,9 @@
 import actionTypes from './actionTypes';
-import { getAllcode, createUserAPI, getAllUsers, deleteUserAPI, editUserAPI, getTopDoctor, getAllDoctor, createMoreInfoDoctor, getDoctorById, handleBulkCreate } from '../../services/userService';
+import {
+    getAllcode, createUserAPI, getAllUsers, deleteUserAPI, editUserAPI, getTopDoctor,
+    getAllDoctor, createMoreInfoDoctor
+} from '../../services/userService';
+import { createSpecialty } from '../../services/specialtyService';
 import { toast } from "react-toastify";
 export const fetchGenderStart = () => {
     return async (dispatch, getState) => {
@@ -296,6 +300,34 @@ export const getTimeRangeSuccess = (data) => ({
 
 export const getTimeRangeFailed = () => ({
     type: actionTypes.GET_TIME_RANGE_FAILED
+})
+
+//Specialty
+export const createSpecialtyStart = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            dispatch({ type: actionTypes.CREATE_USER_START })
+            let res = await createSpecialty(data);
+            if (res && res.errCode === 0) {
+                dispatch(createSpecialtySuccess());
+                toast.success("Create new Specialty successfully!");
+            } else {
+                dispatch(createSpecialtyFailed());
+                toast.error("Create new Specialty failed!")
+            }
+        } catch (e) {
+            dispatch(createSpecialtyFailed());
+            console.log(e);
+        }
+    }
+}
+
+export const createSpecialtySuccess = () => ({
+    type: actionTypes.CREATE_USER_SUCCESS,
+})
+
+export const createSpecialtyFailed = () => ({
+    type: actionTypes.CREATE_USER_FAILED
 })
 
 

@@ -9,6 +9,7 @@ import './ManageSchedule.scss';
 import { toast } from "react-toastify";
 import { saveBulkSchedule } from '../../../services/userService';
 
+
 class ManageSchedule extends Component {
 
     constructor(props) {
@@ -24,6 +25,7 @@ class ManageSchedule extends Component {
     async componentDidMount() {
         this.props.fetchAllDoctorsStart();
         this.props.getTimeRangeStart();
+
     }
 
     handleConvertName = (data) => {
@@ -71,7 +73,6 @@ class ManageSchedule extends Component {
             })
         }
 
-
     }
 
     handleChangeSelect = async (selectedOption) => {
@@ -80,6 +81,7 @@ class ManageSchedule extends Component {
         });
 
     }
+
 
     handleChangeDate = (date) => {
         this.setState({
@@ -162,6 +164,7 @@ class ManageSchedule extends Component {
                                     onChange={this.handleChangeSelect}
                                     options={allDoctors}
                                 />
+
                             </div>
                             <div className='date-search'>
                                 <label>Chọn ngày</label>

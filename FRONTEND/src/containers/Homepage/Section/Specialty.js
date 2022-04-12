@@ -4,6 +4,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import icon from '../../../assets/images/icon/icon1.png';
+import { getSpecialty } from '../../../services/specialtyService';
+
 // import * as actions from "../../store/actions";
 import { FormattedMessage } from 'react-intl';
 import './Specialty.scss';
@@ -12,8 +14,17 @@ class Specialty extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            specialtyArr: []
         }
     }
+
+    componentDidMount = async () => {
+        let specialty = await getSpecialty('ALL');
+        this.setState({
+            specialtyArr: specialty.specialty
+        })
+    }
+
     render() {
         var settings = {
             dots: false,
@@ -22,46 +33,30 @@ class Specialty extends Component {
             slidesToShow: 6,
             slidesToScroll: 1
         };
-        return (
-            <div className="specialty-container">
 
+        let { specialtyArr } = this.state;
+        console.log(specialtyArr);
+        return (
+            <div className="specialty-homepage-container">
                 <div className='specialty-content'>
                     <div className='title-section'>CHUYÊN KHOA</div>
                     <Slider {...settings}>
-                        <div className='slider-child'>
-                            <div className='slider-icon'>
-                                <img className='icon-img' src={icon} />
-                            </div>
-                            <div className='slider-title'>AAAA</div>
-                        </div>
-                        <div className='slider-child'>
-                            <div className='slider-icon'></div>
-                            <div className='slider-title'></div>
-                        </div>
-                        <div className='slider-child'>
-                            <div className='slider-icon'></div>
-                            <div className='slider-title'></div>
-                        </div>
-                        <div className='slider-child'>
-                            <div className='slider-icon'></div>
-                            <div className='slider-title'></div>
-                        </div>
-                        <div className='slider-child'>
-                            <div className='slider-icon'></div>
-                            <div className='slider-title'></div>
-                        </div>
-                        <div className='slider-child'>
-                            <div className='slider-icon'></div>
-                            <div className='slider-title'></div>
-                        </div>
-                        <div className='slider-child'>
-                            <div className='slider-icon'></div>
-                            <div className='slider-title'></div>
-                        </div>
-                        <div className='slider-child'>
-                            <div className='slider-icon'></div>
-                            <div className='slider-title'></div>
-                        </div>
+                        {specialtyArr && specialtyArr.map((item, index) => {
+                            return (
+                                <div className='slider-child' key={index}>
+                                    <div className='slider-icon'>
+                                        <div className='icon-img'
+                                            style={{
+                                                backgroundImage: `url(${new Buffer(item.specialty_image, 'base64')})`,
+                                            }}
+                                        />
+                                    </div>
+                                    <div className='slider-title'>{item.specialty_name}</div>
+                                </div>
+                            )
+                        }
+                        )
+                        }
 
                     </Slider>
                 </div>

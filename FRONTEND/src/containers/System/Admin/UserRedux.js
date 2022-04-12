@@ -119,7 +119,6 @@ class UserRedux extends Component {
             if (!this.state[checkArr[i]]) {
                 isValidate = false;
                 alert('Missing input at: ' + checkArr[i]);
-
                 break;
             }
         }
@@ -166,6 +165,7 @@ class UserRedux extends Component {
         if (user.image) {
             img64 = new Buffer(user.image, 'base64').toString('binary');
         }
+        console.log(img64)
         this.setState({
             email: user.email,
             password: 'HARDCODE',
@@ -234,7 +234,7 @@ class UserRedux extends Component {
                                     value={gender}>
                                     {arrGender && arrGender.map((gender, index) => {
                                         return (
-                                            language === LANGUAGES.VI ? <option keyMap={index} value={gender.keyMap} >{gender.value_vi}</option> :
+                                            language === LANGUAGES.VI ? <option key={index} value={gender.keyMap} >{gender.value_vi}</option> :
                                                 <option keyMap={index} value={gender.keyMap} >{gender.value_en}</option>
                                         )
                                     })}

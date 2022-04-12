@@ -15,7 +15,6 @@ class Header extends Component {
         super(props);
         this.state = {
             menuApp: [],
-
         }
     }
 
@@ -45,22 +44,24 @@ class Header extends Component {
 
         console.log(userInfo);
         return (
-            <div className="header-container">
-                {/* thanh navigator */}
-                <div className="header-tabs-container">
-                    <Navigator menus={menuApp} />
-                </div>
+            <>
+                <div className="header-container">
+                    {/* thanh navigator */}
+                    <div className="header-tabs-container">
+                        <Navigator menus={menuApp} />
+                    </div>
 
-                <div className="header-language">
-                    <span className='header-admin'><FormattedMessage id="login.welcome" />{userInfo && userInfo ? userInfo.firstname : ''} !</span>
-                    <img className={language === LANGUAGES.VI ? "language-flag active" : "language-flag"} src={vnflag} alt="Logo" onClick={() => this.changeLanguage(LANGUAGES.VI)} />
-                    <img className={language === LANGUAGES.EN ? "language-flag active" : "language-flag"} src={usaflag} alt="Logo" onClick={() => this.changeLanguage(LANGUAGES.EN)} />
+                    <div className="header-language">
+                        <span className='header-admin'><FormattedMessage id="login.welcome" />{userInfo && userInfo ? userInfo.firstname : ''} !</span>
+                        <img className={language === LANGUAGES.VI ? "language-flag active" : "language-flag"} src={vnflag} alt="Logo" onClick={() => this.changeLanguage(LANGUAGES.VI)} />
+                        <img className={language === LANGUAGES.EN ? "language-flag active" : "language-flag"} src={usaflag} alt="Logo" onClick={() => this.changeLanguage(LANGUAGES.EN)} />
+                    </div>
+                    {/* nút logout */}
+                    <div className="btn btn-logout" onClick={processLogout}>
+                        <i className="fas fa-sign-out-alt"></i>
+                    </div>
                 </div>
-                {/* nút logout */}
-                <div className="btn btn-logout" onClick={processLogout}>
-                    <i className="fas fa-sign-out-alt"></i>
-                </div>
-            </div>
+            </>
         );
     }
 

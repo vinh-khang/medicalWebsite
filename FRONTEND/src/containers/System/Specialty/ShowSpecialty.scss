@@ -1,0 +1,40 @@
+#specialty {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.specialty-table {
+    width: 1000px;
+    margin: auto;
+}
+
+#specialty td,
+#specialty th {
+    border-bottom: 1px solid rgb(223, 223, 223);
+    padding: 8px;
+}
+
+#specialty tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#specialty tr:hover {
+    background-color: rgb(240, 240, 240);
+    color: #3f86df;
+}
+
+#specialty th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: none;
+    color: black;
+    font-weight: 700;
+}
+
+.specialty-back-btn {
+    background-color: none;
+    border: none;
+    color: #3f86df;
+}

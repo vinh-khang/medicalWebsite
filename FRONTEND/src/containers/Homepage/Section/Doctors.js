@@ -5,17 +5,24 @@ import * as actions from '../../../store/actions';
 import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../../utils/constant';
 import { withRouter } from 'react-router';
+import { getSpecialty } from '../../../services/specialtyService';
 
 class Doctors extends Component {
     constructor(props) {
         super(props);
         this.state = {
             topDoctors: [],
+            allSpecialty: [],
         }
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         this.props.fetchTopDoctors();
+        let specialty = await getSpecialty('ALL');
+        console.log(specialty)
+        this.setState({
+            allSpecialty: specialty.specialty
+        })
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -28,7 +35,7 @@ class Doctors extends Component {
     }
 
     getDetailedDoctor = (doctor) => {
-        this.props.history.push(`/users/${doctor.id}`);
+        this.props.history.push(`/doctor/${doctor.id}`);
     }
 
     render() {
@@ -39,7 +46,7 @@ class Doctors extends Component {
             slidesToShow: 5,
             slidesToScroll: 1
         };
-        let { topDoctors } = this.state;
+        let { topDoctors, allSpecialty } = this.state;
         let { language } = this.props;
         return (
             <div className="doctor-container">
@@ -54,6 +61,14 @@ class Doctors extends Component {
                             }
                             let name_vi = `${doctor.positionData.value_vi} ${doctor.lastname} ${doctor.firstname}`;
                             let name_en = `${doctor.positionData.value_en} ${doctor.lastname} ${doctor.firstname}`;
+                            let speName = '';
+                            if (doctor.DoctorDetail) {
+                                speName = allSpecialty.find(item =>
+                                    item.id === doctor.DoctorDetail.specialty_id
+                                )
+                            }
+
+                            console.log("Ten chuyen khoa", speName)
                             return (
                                 <div key={index} className='slider-child' onClick={() => this.getDetailedDoctor(doctor)}>
                                     <div className='slider-doctor-section'>
@@ -63,7 +78,7 @@ class Doctors extends Component {
 
                                     </div>
                                     <div className='doctor-name'>{language === LANGUAGES.VI ? name_vi : name_en}</div>
-                                    <div className='doctor-specialty'>Da liễu</div>
+                                    <div className='doctor-specialty'>{speName ? speName.specialty_name : ""}</div>
                                 </div>
                             )
                         })}

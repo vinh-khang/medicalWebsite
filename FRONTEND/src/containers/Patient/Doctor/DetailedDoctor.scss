@@ -1,59 +1,68 @@
-.detailed-doctor-container{
+.detailed-doctor-container {
     background-color: #f0f2f5;
-
     padding: 10px 100px;
-    .detailed-doctor-content{
+
+    .detailed-doctor-content {
         background-color: white;
-
-        border-radius: 10px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        border-radius: 5px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
         padding: 20px 50px;
+        width: 100%;
 
-        .detailed-doctor-infor{
-           
-            height: 200px;
+        .detailed-doctor-infor {
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgb(225, 225, 225);
             display: flex;
             gap: 20px;
 
-            .detailed-doctor-img{
-                width: 20%;
-                height: 200px;
+            .detailed-doctor-img {
+                width: 25%;
+                height: 150px;
                 background-size: contain !important;
                 background: center center no-repeat;
             }
 
-            .detailed-doctor-desc{
-                width: 80%;
-               
+            .detailed-doctor-desc {
+                width: 100%;
 
-                .detaild-doctor-name{
+
+                .detaild-doctor-name {
                     font-weight: 700;
                     text-transform: uppercase;
-                    font-size: 20px;
+                    font-size: 25px;
                     color: #27519e;
                     margin-bottom: 10px;
 
+                    .detaild-doctor-spe {
+                        font-size: 16px;
+                        color: #5c8fed;
+
+                        .fa {
+                            color: #4870ba;
+                        }
+                    }
+
                 }
 
-                .detaild-doctor-text{
-                    width: 70%;
+                .detaild-doctor-text {
+                    width: 100%;
                 }
-                
+
             }
         }
 
-        .booking-doctor{
+        .booking-doctor {}
 
-        }
-
-        .detailed-doctor-markdown{
-            margin-top: 20px;
+        .detailed-doctor-markdown {
+            margin-top: 10px;
             border-top: 1px solid rgb(228, 228, 228);
             padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            padding: 20px 50px;
         }
 
-        .detailed-doctor-comment{
-
-        }
+        .detailed-doctor-comment {}
     }
 }

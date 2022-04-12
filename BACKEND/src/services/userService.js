@@ -1,6 +1,7 @@
 import db from "../models/index";
 import bcrypt from 'bcryptjs';
 
+
 let handleUserLogin = (email, password) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -118,7 +119,7 @@ let createNewUser = (data) => {
                     position_id: data.position_id,
                     image: data.image,
                 })
-                console.log(data);
+
                 resolve({
                     errCode: 0,
                     errMessage: 'OK'
@@ -233,6 +234,95 @@ let getAllcode = (typeInput) => {
     })
 }
 
+let getUserByEmail = (email) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (email) {
+                let user = await db.User.findOne({
+                    where: { email: email },
+                    attributes: {
+                        exclude: ['password']
+                    },
+                });
+                resolve({
+                    errCode: 0,
+                    user: user,
+                });
+            } else {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameters',
+                })
+            }
+
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
+let createBooking = async (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (data) {
+                let booking = await db.Booking.findOne({
+                    where: { date: data.date, time_type: data.time_type, doctor_id: data.doctor_id },
+                    raw: false
+                })
+
+                if (!booking) {
+                    await db.Booking.create({
+                        status_id: 'S1',
+                        doctor_id: data.doctor_id,
+                        patient_id: data.patient_id,
+                        date: data.date,
+                        time_type: data.time_type,
+                    })
+                } else {
+                    resolve({
+                        errCode: 1,
+                        errMessage: 'Trùng lịch rồi!'
+                    });
+                }
+
+                let schedule = await db.Schedule.findOne({
+                    where: { date: data.date, time_type: data.time_type, doctor_id: data.doctor_id },
+                    raw: false
+                })
+
+                if (schedule.current_number) {
+                    schedule.current_number = schedule.current_number + 1;
+                    if (schedule.current_number > 5) {
+                        resolve({
+                            errCode: 1,
+                            errMessage: 'Quá số lượng quy định!'
+                        });
+                    } else {
+                        await schedule.save();
+                    }
+                } else {
+                    schedule.current_number = 1;
+                    await schedule.save();
+                }
+
+                console.log(schedule)
+
+                resolve({
+                    errCode: 0,
+                    errMessage: 'OK'
+                });
+            } else {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'This email address is already being used'
+                });
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+
 module.exports = {
     handleUserLogin,
     getAllUsers,
@@ -240,4 +330,6 @@ module.exports = {
     deleteUser,
     updateUser,
     getAllcode,
+    getUserByEmail,
+    createBooking,
 }

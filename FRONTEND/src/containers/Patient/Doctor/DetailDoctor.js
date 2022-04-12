@@ -5,29 +5,47 @@ import HomeHeader from '../../Homepage/HomeHeader';
 import { LANGUAGES, ADMIN_ACTION, CommonUtils } from '../../../utils';
 import './DetailedDoctor.scss';
 import DoctorSchedule from './DoctorSchedule';
+import { getSpecialty } from '../../../services/specialtyService';
 
 class DetailDoctor extends Component {
     constructor(props) {
         super(props);
         this.state = {
             doctor: null,
+            doctorID: null,
+            specialty: '',
         }
     }
 
-    componentDidMount = () => {
-        this.props.getDoctorIDStart(this.props.match.params.id);
+    componentDidMount = async () => {
+        await this.props.getDoctorIDStart(this.props.match.params.id);
+        this.setState({
+            doctorID: this.props.match.params.id,
+        })
+
     }
 
-    componentDidUpdate = (prevProps, prevState, snapshot) => {
+    componentDidUpdate = async (prevProps, prevState, snapshot) => {
         if (prevProps.doctor !== this.props.doctor) {
             this.setState({
                 doctor: this.props.doctor,
             })
+
+        }
+
+        if (prevState.doctor !== this.state.doctor) {
+            if (this.state.doctor) {
+                let specialty = await getSpecialty(this.state.doctor.DoctorDetail.specialty_id);
+                this.setState({
+                    specialty: specialty.specialty
+                })
+
+            }
         }
     }
 
     render() {
-        let { doctor } = this.state;
+        let { doctor, specialty, doctorID } = this.state;
         let doctor_name = '';
         let image = '';
         if (doctor && doctor.positionData && doctor.image) {
@@ -35,6 +53,7 @@ class DetailDoctor extends Component {
             image = new Buffer(doctor.image, 'base64').toString('binary');
         }
 
+        console.log(specialty)
         return (
             <>
                 <HomeHeader isShow={false} />
@@ -51,6 +70,11 @@ class DetailDoctor extends Component {
                                             {doctor_name}
                                         </span>
                                     }
+                                    {
+                                        <div className='detaild-doctor-spe'>
+                                            <i className="fa fa-plus-square"></i> {specialty ? specialty.specialty_name : ''}
+                                        </div>
+                                    }
                                 </div>
                                 <div className='detaild-doctor-text'>
                                     {doctor && doctor.DetailedInformation
@@ -66,7 +90,8 @@ class DetailDoctor extends Component {
                         </div>
                         <div className='booking-doctor'>
                             <DoctorSchedule
-                                doctorId={doctor} />
+                                doctorId={doctorID}
+                                specialtyId={specialty ? specialty.id : 0} />
                         </div>
                         <div className='detailed-doctor-markdown'>
                             {doctor && doctor.DetailedInformation

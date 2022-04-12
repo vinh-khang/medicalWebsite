@@ -7,7 +7,8 @@
         "specialist": "specialist",
         "team": "team of doctors",
         "manual": "User manual",
-        "search": "Search"
+        "search": "Search",
+        "login": "Login"
     },
     "homecontent": {
         "top_doctor": "Weekly outstanding doctors"
@@ -61,8 +62,10 @@
             "crud-redux": "CRUD Redux",
             "manage-admin": "Manage admin",
             "manage-doctor": "Manage Doctor",
-            "manage-specialty": "Manage Specialty",
-            "manage-clinic": "Manage Clinic",
+            "manage-specialty": "Add Specialty",
+            "edit-specialty": "Update Specialty",
+            "show-specialty": "Show Specialty",
+            "clinic-intro": "About us",
             "manage-handbook": "Manage Handbook"
         },
         "doctor": {
@@ -84,5 +87,11 @@
         "upload": "Upload image",
         "create": "Create new user",
         "edit": "Update"
+    },
+    "specialty": {
+        "specialty_name": "Specialty's name",
+        "specialty_icon": "Specialty's icon",
+        "specialty_price": "Examination price",
+        "specialty_info": "Specialty's Information"
     }
 }

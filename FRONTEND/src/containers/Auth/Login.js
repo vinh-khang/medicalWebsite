@@ -39,6 +39,7 @@ class Login extends Component {
                 this.setState({
                     message: data.message
                 });
+
             }
             if (data && data.errCode === 0) {
                 this.props.userLoginSuccess(data.user)

@@ -8,6 +8,7 @@ import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import { getDoctorById } from '../../../../services/userService';
+import { getSpecialty } from '../../../../services/specialtyService';
 import Select from 'react-select';
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
@@ -20,13 +21,30 @@ class DoctorManage extends Component {
             contentHTML: '',
             contentMarkdown: '',
             description: '',
+            specialty: '',
             allDoctors: [],
-            olDataDoctor: false,
+            oldDataDoctor: false,
+            allSpecialty: [],
+            selectedOptionSpe: null,
+            allSpecialtyName: [],
+
         }
     }
 
     async componentDidMount() {
         this.props.fetchAllDoctorsStart();
+        let specialty = await getSpecialty('ALL');
+        this.setState({
+            allSpecialty: specialty.specialty
+        })
+    }
+
+
+    handleChangeSelectSpe = async (selectedOptionSpe) => {
+        this.setState({
+            selectedOptionSpe: selectedOptionSpe
+        });
+
     }
 
     handleConvertName = (data) => {
@@ -62,6 +80,26 @@ class DoctorManage extends Component {
                 selectedOption: null,
             })
         }
+
+        if (prevState.allSpecialty !== this.state.allSpecialty) {
+            let result = [];
+            let allSpecialty = this.state.allSpecialty;
+            if (allSpecialty && allSpecialty.length > 0) {
+                allSpecialty.map((specialty, index) => {
+                    let obj = {};
+                    obj.label = specialty.specialty_name;
+                    obj.value = specialty.id;
+                    result.push(obj)
+                })
+            }
+
+            this.setState({
+                allSpecialtyName: result
+            })
+        }
+
+
+
     }
 
     handleEditorChange = ({ html, text }) => {
@@ -75,23 +113,32 @@ class DoctorManage extends Component {
         this.setState({
             selectedOption: selectedOption
         })
+
         let res = await getDoctorById(selectedOption.value);
-        console.log(res);
-        if (res && res.errCode === 0 && res.doctors && res.doctors.DetailedInformation) {
+        if (res && res.errCode === 0 && res.doctors && res.doctors.DetailedInformation
+            && res.doctors.DetailedInformation.contentHTML && res.doctors.DoctorDetail.specialty_id) {
+            let selectedOptionSpe2 = this.state.allSpecialtyName.find(option => {
+                return option.value === res.doctors.DoctorDetail.specialty_id
+            })
+
+            console.log(selectedOptionSpe2)
             this.setState({
                 contentHTML: res.doctors.DetailedInformation.contentHTML,
                 contentMarkdown: res.doctors.DetailedInformation.contentMarkdown,
                 description: res.doctors.DetailedInformation.description,
-                olDataDoctor: true,
+                oldDataDoctor: true,
+                specialty: res.doctors.DoctorDetail.specialty_id,
+                selectedOptionSpe: selectedOptionSpe2,
             })
         } else {
             this.setState({
                 contentHTML: '',
                 contentMarkdown: '',
                 description: '',
-                olDataDoctor: false,
+                oldDataDoctor: false,
+                specialty: '',
+                selectedOptionSpe: '',
             })
-            console.log('Sai r' + res.data);
         }
 
     }
@@ -103,18 +150,19 @@ class DoctorManage extends Component {
     }
 
     saveDetailedInformation = () => {
-        let { olDataDoctor } = this.state;
+        let { oldDataDoctor } = this.state;
         this.props.createMoreInfoDoctorStart({
             doctor_id: this.state.selectedOption.value,
             contentHTML: this.state.contentHTML,
             contentMarkdown: this.state.contentMarkdown,
             description: this.state.description,
-            action: olDataDoctor === true ? ADMIN_ACTION.EDIT : ADMIN_ACTION.CREATE,
+            specialty_id: this.state.selectedOptionSpe.value,
+            action: oldDataDoctor === true ? ADMIN_ACTION.EDIT : ADMIN_ACTION.CREATE,
         });
     }
 
     render() {
-        let { selectedOption, description, allDoctors } = this.state;
+        let { selectedOption, description, allDoctors, selectedOptionSpe, allSpecialtyName, specialty, oldDataDoctor } = this.state;
         return (
             <React.Fragment>
                 <div className="doctor-infor-container">
@@ -128,11 +176,17 @@ class DoctorManage extends Component {
                                     onChange={this.handleChange}
                                     options={allDoctors}
                                 />
+                                <label className='mt-3'>Chọn chuyên khoa</label>
+                                <Select
+                                    value={selectedOptionSpe}
+                                    onChange={this.handleChangeSelectSpe}
+                                    options={allSpecialtyName}
+                                />
                             </div>
                             <div className='doctor-desc'>
                                 <label>Mô tả</label>
                                 <textarea
-                                    rows="2"
+                                    rows="5"
                                     value={description}
                                     onChange={(e) => this.handleTextArea(e)}
                                 ></textarea>

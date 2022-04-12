@@ -10,7 +10,6 @@ let getHomepage = async (req, res) => {
 
 let getCRUD = async (req, res) => {
     let message = await CRUDService.createNewUser(req.body);
-    console.log(message);
     return res.send("Post CRUD from Server");
 }
 

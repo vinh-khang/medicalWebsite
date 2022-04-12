@@ -27,7 +27,6 @@ let handleGetAllUsers = async (req, res) => {
         return res.status(200).json({
             errCode: 1,
             errMessage: 'Missing required parameters',
-            users
         })
     }
     let users = await userService.getAllUsers(id);
@@ -74,6 +73,23 @@ let handleGetAllcode = async (req, res) => {
     }
 }
 
+let handleGetUserByEmail = async (req, res) => {
+    try {
+        let data = await userService.getUserByEmail(req.query.email);
+        return res.status(200).json(data);
+    } catch (e) {
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: 'Missing required parameters',
+        })
+    }
+}
+
+let handleCreateBooking = async (req, res) => {
+    let message = await userService.createBooking(req.body);
+    return res.status(200).json(message);
+}
+
 module.exports = {
     handleLogin,
     handleGetAllUsers,
@@ -81,4 +97,6 @@ module.exports = {
     handleEditUser,
     handleDeleteUser,
     handleGetAllcode,
+    handleGetUserByEmail,
+    handleCreateBooking,
 }

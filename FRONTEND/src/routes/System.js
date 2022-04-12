@@ -4,8 +4,11 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import UserManage from '../containers/System/UserManage';
 import UserRedux from '../containers/System/Admin/UserRedux';
 import DoctorManage from '../containers/System/Admin/Doctor/DoctorManage';
+import ManageSpecialty from '../containers/System/Specialty/ManageSpecialty';
+import ShowSpecialty from '../containers/System/Specialty/ShowSpecialty';
 import Header from '../containers/Header/Header';
 import ManageSchedule from '../containers/System/Doctor/ManageSchedule';
+import ClinicIntro from '../containers/System/Clinic/ClinicIntro';
 
 class System extends Component {
     render() {
@@ -20,6 +23,9 @@ class System extends Component {
                             <Route path="/system/user-redux" component={UserRedux} />
                             <Route path="/system/manage-doctor" component={DoctorManage} />
                             <Route path="/system/manage-schedule" component={ManageSchedule} />
+                            <Route path="/system/manage-specialty" component={ManageSpecialty} />
+                            <Route path="/system/show-specialty" component={ShowSpecialty} />
+                            <Route path="/system/clinic-intro" exact component={(ClinicIntro)} />
                             <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
                         </Switch>
                     </div>
