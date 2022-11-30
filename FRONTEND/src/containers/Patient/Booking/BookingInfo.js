@@ -2,82 +2,87 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import * as actions from '../../../store/actions';
 import HomeHeader from '../../Homepage/HomeHeader';
+import Footer from '../../Homepage/Footer';
+import ProfileTable from '../Profile/ProfileTable';
 import moment from 'moment';
 import { getDoctorById, getAllUsers, getUserByEmail, createBookingSchedule } from '../../../services/userService';
 import { LANGUAGES, ADMIN_ACTION, CommonUtils } from '../../../utils';
 import NumberFormat from 'react-number-format';
+import { FormControl, FormLabel, Radio, FormControlLabel, RadioGroup, touchRippleClasses } from '@mui/material';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import './Booking.scss';
-import _ from 'lodash';
+import payment from '../../../assets/images/payment.jpg';
+import _, { set } from 'lodash';
+import { toast } from 'react-toastify';
 
 class BookingInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            lastname: '',
-            firstname: '',
-            email: '',
-            phone: '',
-            gender: '',
-            address: '',
-            password: '',
-            password_confirmation: '',
-            arrGender: [],
             passMess: '',
             doctor: '',
-            user: ''
+            user: '',
+            data: '',
+            isOpen: false,
+            payment: 'KB',
+            isOpen2: false
         }
     }
 
     componentDidMount = async () => {
-        this.props.getGenderStart();
-        let doctor = await getDoctorById(this.props.location.state.doctor_id);
-        let user = await getUserByEmail(sessionStorage.getItem("isLoginEmail"));
+        if (sessionStorage.getItem("isLoginEmail")) {
+            let doctor = await getDoctorById(this.props.location.state.doctor_id);
+            let user = await getUserByEmail(sessionStorage.getItem("isLoginEmail"));
+            let data = this.props.location.state;
+            if (typeof data === 'string' || data instanceof String) {
+                this.props.history.push('/homepage')
+            }
+            this.setState({
+                doctor: doctor.doctors,
+                user: user.user,
+                data: data
+            })
+        } else {
+            if (this.props.history) {
+                this.props.history.push('/homepage')
+            }
+        }
+    }
+
+
+    componentDidUpdate = async (prevProps, prevState, snapshot) => {
+
+    }
+
+    backHome = () => {
+        if (this.props.history) {
+            this.props.history.push('/homepage')
+        }
+    }
+
+    selectPayment = (e) => {
         this.setState({
-            doctor: doctor.doctors,
-            user: user.user
+            payment: e.target.value
+        })
+    }
+
+    openModal = () => {
+        let { doctor, user, data, payment } = this.state;
+        if (!payment) {
+            toast.error("Chưa chọn phương thức thanh toán")
+        }
+        if (!data || !user || !doctor) {
+            this.props.history.push('/homepage')
+        }
+        this.setState({
+            isOpen: !this.state.isOpen
         })
 
     }
 
-    componentDidUpdate = async (prevProps, prevState, snapshot) => {
-        if (prevProps.genders !== this.props.genders) {
-            this.setState({
-                arrGender: this.props.genders,
-                gender: this.props.genders && this.props.genders.length > 0 ? this.props.genders[0].keyMap : ''
-            })
-        }
-    }
-
-    validateForm = () => {
-        let { lastname, firstname, email, phone, gender, address, password, password_confirmation } = this.state;
-        let checkArr = ['lastname', 'firstname', 'email', 'phone', 'gender', 'address', 'password', 'password_confirmation'];
-        for (let i = 0; i < checkArr.length; i++) {
-            if (!this.state[checkArr[i]]) {
-                this.setState({
-                    passMess: 'Chưa nhập đủ các thông tin bắt buộc!',
-                })
-                return false;
-            }
-        }
-
-        if (password !== password_confirmation) {
-            this.setState({
-                passMess: 'Mật khẩu chưa khớp, vui lòng nhập lại!',
-            })
-            return false;
-        }
-
-
-
-        return true
-
-    }
-
-    onInput = (e, id) => {
-        let copyState = this.state;
-        copyState[id] = e.target.value;
+    openModalSuccess = () => {
         this.setState({
-            ...copyState
+            isOpen2: !this.state.isOpen2
         })
     }
 
@@ -90,85 +95,207 @@ class BookingInfo extends Component {
                 patient_id: this.state.user.id,
                 date: data.date,
                 time_type: data.time_type,
+                price: data.specialty_price,
+                payment: this.state.payment,
+                room: data.room
             })
+
+            if (message.errCode !== 0) {
+                toast.error(message.errMessage);
+                if (this.props.history) {
+                    this.props.history.push(`/doctor/${data.doctor_id}`)
+                }
+            } else {
+                this.openModal();
+                this.openModalSuccess();
+            }
+
         }
+
 
     }
 
+    backPage = (id) => {
+        if (this.props.history) {
+            this.props.history.push(`/doctor/${id}`)
+        }
+    }
+
+    viewAppointment = () => {
+        if (this.props.history) {
+            this.props.history.push(`/profile`)
+        }
+    }
+
     render() {
-        let { arrGender, lastname, firstname, email, phone, gender, address, password, password_confirmation, passMess, doctor, user } = this.state;
-        let data = this.props.location.state;
-        console.log(user);
-        console.log(data.doctor_id)
-        // console.log(this.state.data.doctor_id)
-        console.log(arrGender)
-        let genderOne = arrGender && arrGender.length > 0 && arrGender.find((gender) => {
-            return user.gender === gender.keyMap
-        })
-        console.log(genderOne)
+        let { doctor, user, data } = this.state;
         return (
             <>
                 <HomeHeader isShow={false} />
-                <div className="booking-infor-container">
+                <div className='row booking-infor-container'>
+                    <h3 className="booking-infor-form-heading"><i className="fas fa-calendar-check"></i> TIẾN HÀNH ĐẶT KHÁM</h3>
                     <div className="booking-infor-content">
-                        <div className="booking-infor-form-content">
-                            <h3 className="booking-infor-form-heading">TIẾN HÀNH ĐẶT KHÁM</h3>
-                            <div className='booking-infor-text'>VUI LÒNG XÁC NHẬN THÔNG TIN</div>
+                        <div className="booking-infor-form-content row">
+                            {/* <div className='booking-infor-text'>TIẾN HÀNH ĐẶT KHÁM</div> */}
                             <div className='divide-line '></div>
-                            <div className='booking-infor-text-2'>1. THÔNG TIN KHÁM</div>
-                            <div className='booking-infor-table'>
-                                <table id="booking-infor">
-                                    <thead>
-                                        <tr>
-                                            <th style={{ width: '300px' }}>Chuyên khoa</th>
-                                            <th>Ngày khám</th>
-                                            <th>Thời gian</th>
-                                            <th>Bác sĩ</th>
-                                            <th>Số tiền</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{data.specialty_name}</td>
-                                            <td>{moment(data.date).format("DD-MM-YYYY")}</td>
-                                            <td>{data.scheduleData.value_vi}</td>
-                                            <td>{doctor.firstname}</td>
-                                            <td> <NumberFormat value={data.specialty_price} displayType={'text'} thousandSeparator={true} prefix={''} /> VNĐ{ }</td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
+                            <div className="left-booking-infor">
+                                <div className='booking-infor-text-2'>1. THÔNG TIN BỆNH NHÂN</div>
+                                {user &&
+                                    <ProfileTable
+                                        userInfor={user}
+                                    />
+                                }
+                                <br></br>
+                                <div className="timeline_content">
+                                    <div className="ct_inside">
+                                        <div>Người bệnh không BHYT sẽ đến trực tiếp phòng khám trước giờ hẹn 15-30 phút để khám bệnh .</div>
+                                    </div>
+                                </div>
                             </div>
+                            <div className='right-booking-infor'>
+                                <div className='booking-infor-text-2'>2. THÔNG TIN ĐẶT KHÁM</div>
+                                <div className='booking-infor-title'><i className="fas fa-notes-medical"></i> Thông tin đặt khám</div>
+                                <div className='booking-infor-table'>
+                                    <table id="booking-infor">
+                                        <thead>
+                                            <tr>
+                                                <th>Chuyên khoa</th>
+                                                <td>{data.specialty_name}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Ngày khám</th>
+                                                <td className='blue-weight'><b>{moment(data.date).format("DD-MM-YYYY")}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Thời gian</th>
+                                                <td className='blue-weight'><b>{data.scheduleData ? data.scheduleData.value_en : ''}</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th> Bác sĩ</th>
+                                                <td>{doctor.lastname} {doctor.firstname}</td>
+                                            </tr>
+                                            <tr>
+                                                <th> Số phòng</th>
+                                                <td>{data ? data.room : '...'}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Số tiền</th>
+                                                <td> <NumberFormat value={data.specialty_price} displayType={'text'} thousandSeparator={true} prefix={''} /> VNĐ</td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <br></br>
+                                <div className='booking-infor-text-2'>3. CHỌN HÌNH THỨC THANH TOÁN</div>
+                                <FormControl className='booking-infor-radio'>
+                                    <RadioGroup
+                                        aria-labelledby="demo-radio-buttons-group-label"
+                                        defaultValue="KB"
+                                        name="radio-buttons-group"
+                                        className='booking-infor-radio'
+                                        onChange={(e) => this.selectPayment(e)}
+                                    >
+                                        <FormControlLabel value="KB" control={<Radio />} selected label="Thanh toán bằng thẻ Khám bệnh" />
+                                        <FormControlLabel value="VS" control={<Radio />} label="Thanh toán bằng Thẻ quốc tế Visa, Master, JSB" />
+                                        <FormControlLabel value="AT" control={<Radio />} label="Thanh toán bằng thẻ ATM nội địa/Internet Banking" />
+                                        <FormControlLabel value="MM" control={<Radio />} label="Thanh toán bằng Ví Momo" />
+                                    </RadioGroup>
+                                </FormControl>
+                            </div>
+                        </div>
+                        <div className='divide-line'></div>
+                        <div className="col-12 row">
+                            <div className='col-6'></div>
+                            <div className="btn-space col-6 row">
+                                <button className="btn-back" onClick={() => this.backPage(doctor.id)}>Quay về</button>
+                                <button className="btn-booking" onClick={() => this.openModal()}> Đăng ký khám <i className="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
 
-                            <div className='booking-infor-text-2'>2. THÔNG TIN BỆNH NHÂN</div>
-                            <div className='row'>
-                                <div className='col-12'>
-                                    <div className="form-group ">
-                                        <div className='row booking-user-infor'>
-                                            <div className='col-6'>
-                                                <div><b>Họ và tên: </b>{user.lastname} {user.firstname}</div>
-                                                <div><b>Số điện thoại: </b>{user.phonenumber}</div>
-                                                <div><b>Giới tính: </b>{genderOne ? genderOne.value_vi : ''}</div>
+                </div>
+                <Modal
+                    isOpen={this.state.isOpen}
+                    toggle={() => { this.openModal() }}
+                    size="lg"
+                    centered={true}
+                    className='accept-booking-modal'
+                >
+                    <ModalHeader
+                        toggle={() => { this.openModal() }}
+                        centered={true}
+                        className='accept-booking-modal-header'>
+                        <i className="fas fa-credit-card"></i> Xác nhận thanh toán
+                    </ModalHeader>
+                    <ModalBody>
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="form-row">
+                                        <div className='accept-booking-form'>
+                                            <div className='flex-img'>
+                                                <img className='img-payment' src={payment} ></img>
                                             </div>
-                                            <div className='col-6'>
-                                                <div><b>Email: </b>{user.email}</div>
+                                            <br></br>
+                                            <div className='row'>
+                                                <div className='accept-price'>Xác nhận đặt khám với số tiền <NumberFormat value={data.specialty_price} displayType={'text'} thousandSeparator={true} prefix={''} /> VNĐ</div>
+                                            </div>
+                                            <br></br>
+                                            <div className='accept-noti'>Sau khi đặt khám thành công phiếu khám điện tử sẽ được gửi ngay qua email và trên phần mềm.</div>
 
-                                                <div><b>Địa chỉ: </b>{user.address}</div>
+                                            <div className='divide-line'></div>
+                                            <div className="col-12">
+                                                <div className="btn-space row">
+                                                    <button className="btn-back" onClick={() => this.openModal()}>Quay về</button>
+                                                    <button className="btn-booking" onClick={() => this.saveBooking()}> Đồng ý</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-
-                            <div className="row col-12">
-                                <div className='col-12'></div>
-                                <button className="form-submit col-3 " onClick={() => this.saveBooking()}>ĐĂNG KÝ</button>
-                                <button className="form-submit col-3 " onClick={() => this.registerUser()}>QUAY VỀ</button>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </ModalBody>
+
+                </Modal>
+
+                <Modal
+                    isOpen={this.state.isOpen2}
+                    size="lg"
+                    centered={true}
+                    className='accept-booking-modal-success'
+                >
+                    <ModalBody>
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="form-row">
+                                        <div className='accept-booking-form'>
+                                            <div className='flex-success'>
+                                                <i className="fas fa-check-circle"></i>
+                                            </div>
+                                            <br></br>
+                                            <div className='row'>
+                                                <div className='accept-price'>Xác nhận đăng ký lịch khám thành công!</div>
+                                            </div>
+                                            <br></br>
+                                            <div className='accept-thanks'>Cảm ơn Quý khách đã sử dụng dịch vụ của MegaHealth</div>
+                                            <div className='divide-line'></div>
+                                            <div className="col-12">
+                                                <div className="btn-space row">
+                                                    <button className="btn-profile" onClick={() => this.viewAppointment()}>Xem phiếu khám</button>
+                                                    <button className="btn-home" onClick={() => this.backHome()}>Về trang chủ</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ModalBody>
+
+                </Modal>
+                <Footer />
             </>
         );
     }
@@ -176,14 +303,11 @@ class BookingInfo extends Component {
 
 const mapStateToProps = state => {
     return {
-        genders: state.admin.genders,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getGenderStart: () => dispatch(actions.fetchGenderStart()),
-        createUserStart: (data) => dispatch(actions.createUserStart(data)),
 
     };
 };

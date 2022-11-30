@@ -19,10 +19,10 @@ class Doctors extends Component {
     componentDidMount = async () => {
         this.props.fetchTopDoctors();
         let specialty = await getSpecialty('ALL');
-        console.log(specialty)
         this.setState({
             allSpecialty: specialty.specialty
         })
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -50,17 +50,19 @@ class Doctors extends Component {
         let { language } = this.props;
         return (
             <div className="doctor-container">
-
                 <div className='doctor-content'>
                     <div className='title-doctor'><FormattedMessage id="homecontent.top_doctor" /></div>
+                    <div className='specialty-description'>
+                        <i>“ {<FormattedMessage id="homecontent.logan_2" />} ”</i>
+                    </div>
                     <Slider {...settings}>
                         {topDoctors && topDoctors.map((doctor, index) => {
                             let img64 = '';
                             if (doctor.image) {
                                 img64 = new Buffer(doctor.image, 'base64').toString('binary');
                             }
-                            let name_vi = `${doctor.positionData.value_vi} ${doctor.lastname} ${doctor.firstname}`;
-                            let name_en = `${doctor.positionData.value_en} ${doctor.lastname} ${doctor.firstname}`;
+                            let name_vi = ` ${doctor.lastname} ${doctor.firstname}`;
+                            let name_en = `${doctor.lastname} ${doctor.firstname}`;
                             let speName = '';
                             if (doctor.DoctorDetail) {
                                 speName = allSpecialty.find(item =>
@@ -68,7 +70,6 @@ class Doctors extends Component {
                                 )
                             }
 
-                            console.log("Ten chuyen khoa", speName)
                             return (
                                 <div key={index} className='slider-child' onClick={() => this.getDetailedDoctor(doctor)}>
                                     <div className='slider-doctor-section'>
@@ -77,7 +78,10 @@ class Doctors extends Component {
                                         />
 
                                     </div>
-                                    <div className='doctor-name'>{language === LANGUAGES.VI ? name_vi : name_en}</div>
+                                    <div className='doctor-name'>
+                                        {doctor.positionData.value_vi}
+                                        <br></br>
+                                        {language === LANGUAGES.VI ? name_vi : name_en}</div>
                                     <div className='doctor-specialty'>{speName ? speName.specialty_name : ""}</div>
                                 </div>
                             )

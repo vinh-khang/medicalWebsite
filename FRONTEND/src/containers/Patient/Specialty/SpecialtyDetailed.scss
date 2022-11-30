@@ -1,0 +1,152 @@
+.specialty-detail-container {
+    background-color: #f0f9fd;
+    padding: 10px 200px;
+
+
+    .specialty-detail-banner {
+        z-index: -1000;
+        height: 150px;
+        width: 100%;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 5px 5px 0px 0px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+
+        .specialty-detail-title {
+            color: white;
+            font-size: 30px;
+            font-weight: 700;
+            text-align: center;
+            margin: auto;
+            height: 150px;
+            width: 400px;
+            padding-top: 30px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+        }
+    }
+
+    .specialty-detail-content {
+
+        .specialty-detail-infor {
+            display: flex;
+            gap: 20px;
+
+            .specialty-detail-img {
+                width: 25%;
+                height: 150px;
+                background-size: contain !important;
+                background: center center no-repeat;
+            }
+
+            .specialty-detail-desc {
+                width: 100%;
+
+
+                .detaild-doctor-name {
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    font-size: 25px;
+                    color: #27519e;
+                    margin-bottom: 10px;
+
+                    .detaild-doctor-spe {
+                        font-size: 16px;
+                        color: #5c8fed;
+
+                        .fa {
+                            color: #4870ba;
+                        }
+                    }
+
+                }
+
+                .detaild-doctor-text {
+                    width: 100%;
+
+
+                }
+
+            }
+        }
+
+        // .collapsing {
+        //     width: 100%;
+        //     height: 100% !important;
+        // }
+
+        .specialty-detail-markdown {
+            // margin-top: 10px;
+            border-top: 1px solid rgb(228, 228, 228);
+            background-color: white;
+            border-radius: 0px 0px 5px 5px;
+            padding: 20px 50px;
+            width: 100% !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+
+        .button-detail-doctor {
+            position: relative;
+            margin-top: -100px;
+            padding: 0px 10px;
+            height: 30px;
+            font-size: 16px;
+            float: right;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            margin-top: -40px;
+            margin-right: 10px;
+            background-color: white;
+            color: black;
+
+        }
+
+    }
+}
+
+.specialty-detail-modal {
+    width: 1200px;
+
+    .specialty-detail-modal-header {
+        background-color: #1da1f2 !important;
+        color: #ffffff !important;
+        height: 50px !important;
+        margin: auto;
+        width: 100%;
+        display: flex;
+
+        .icon-img {
+            width: 55px;
+            height: 54px;
+            background: center center no-repeat;
+
+        }
+
+        .modal-title {
+            font-size: 16px !important;
+            font-weight: 800 !important;
+            padding: 10px;
+            width: 100% !important;
+            text-align: center !important;
+        }
+
+
+        .form-row {
+            padding: 10px 10px;
+
+        }
+
+
+    }
+
+    .specialty-detail-content {
+        padding: 0px 10px;
+    }
+
+
+    .modal-header .close {
+        margin: -10px -10px !important;
+        color: #ffffff;
+    }
+}

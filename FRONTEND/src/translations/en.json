@@ -3,26 +3,37 @@
         "register": "MEDICAL REGISTER",
         "phone": "CONSULTATION PHONE",
         "intro": "ABOUT US",
+        "procedure": "PROCEDURE",
+        "question": "QUESTION",
         "service": "service",
         "specialist": "specialist",
         "team": "team of doctors",
         "manual": "User manual",
         "search": "Search",
-        "login": "Login"
+        "login": "Login",
+        "hello": "Welcome,",
+        "profile": "Patient profile",
+        "loggout": "Loggout",
+        "booking": "Booking by doctor"
     },
     "homecontent": {
-        "top_doctor": "Weekly outstanding doctors"
+        "top_doctor": "Weekly outstanding doctors",
+        "logan": "MegaHealth is proud of a variety of prestigious and top-quality specialties!",
+        "logan_2": "Good health and a clear mind are the two happiest things in life!"
     },
     "common": {
         "add": "Add",
         "edit": "Edit",
+        "update": "Update",
         "delete": "Delete",
         "decentralize": "Decentralize",
         "close": "Close",
         "save": "Save",
+        "back": "Back",
         "refresh": "Refresh",
         "accept": "Accept",
         "confirm": "Confirm",
+        "complete": "Complete",
         "confirm-this-task": "Are you sure to process this task?",
         "fail-to-load-data": "Fail to load data",
         "unknown-error": "There was an error",
@@ -31,7 +42,22 @@
         "forbiden-request": "Invalid input data",
         "fail-to-load-all-code": "Fail to load data from allcode",
         "sum": "Sum",
-        "date-range-invalid": "Date range invalid"
+        "date-range-invalid": "Date range invalid",
+        "order": "Order",
+        "filter-by-doctor": "Filter by doctor",
+        "filter-by-status": "Filter by status",
+        "filter-by-date": "Filter by date",
+        "cancel-filter": "Cancel filter",
+        "code": "Code",
+        "date": "Date",
+        "time": "Time",
+        "room": "Room",
+        "price": "Price",
+        "new-booking": "New booking",
+        "accepted-booking": "Accepted booking",
+        "finished": "Finished",
+        "cancelled": "Cancelled",
+        "all": "All"
     },
     "login": {
         "login": "Login",
@@ -55,30 +81,35 @@
         },
         "admin": {
             "user": "User",
+            "doctor": "Doctor",
             "clinic": "Clinic",
             "specialty": "Specialty",
+            "booking": "Booking",
             "handbook": "Handbook",
             "crud-user": "CRUD user",
-            "crud-redux": "CRUD Redux",
+            "create-user": "Create New User",
+            "user-management": "User's Account Management",
             "manage-admin": "Manage admin",
-            "manage-doctor": "Manage Doctor",
+            "manage-doctor": "Doctor Management",
             "manage-specialty": "Add Specialty",
             "edit-specialty": "Update Specialty",
             "show-specialty": "Show Specialty",
-            "clinic-intro": "About us",
+            "clinic-post-management": "Post management",
+            "booking-info": "Booking Schedule",
+            "booking-management": "Booking Management",
             "manage-handbook": "Manage Handbook"
         },
         "doctor": {
-            "manage-schedule": "Doctor's schedule Manage"
+            "manage-schedule": "Doctor's Schedule Management"
         }
     },
     "user_manage": {
         "firstname": "First name",
         "lastname": "Last name",
         "phone": "Phone number",
-        "address": "Address detail",
+        "address": "Address",
         "gender": "Gender",
-        "position": "Position",
+        "position": "Degree",
         "role": "Role",
         "image": "Image",
         "add": "Add",
@@ -86,12 +117,33 @@
         "edit_title": "UPDATE USER INFORMATION",
         "upload": "Upload image",
         "create": "Create new user",
-        "edit": "Update"
+        "edit": "Update account",
+        "view-users": "View all accounts",
+        "user-information": "USER INFORMATION",
+        "no-search": "Sorry! No result found:("
     },
     "specialty": {
-        "specialty_name": "Specialty's name",
-        "specialty_icon": "Specialty's icon",
+        "specialty_name": "Specialty name",
+        "specialty_icon": "Specialty icon",
         "specialty_price": "Examination price",
-        "specialty_info": "Specialty's Information"
+        "specialty_info": "Specialty Information",
+        "specialty": "Specialty"
+    },
+    "doctor-manage": {
+        "doctor-management": "Doctor management",
+        "doctor-name": "Doctor name",
+        "doctor-description": "Doctor desciption",
+        "doctor-information": "Doctor information",
+        "manage-schedule": "Doctor's Schedule Management",
+        "date-schedule": "Choose a date",
+        "time-schedule": "Choose a time range",
+        "room-schedule": "Choose a room",
+        "selected-time": "Selected time"
+    },
+    "clinic": {
+        "clinic-post-management": "Post management",
+        "clinic-post-name": "Post tittle",
+        "clinic-post-type": "Post type",
+        "clinic-post-content": "Post content"
     }
 }

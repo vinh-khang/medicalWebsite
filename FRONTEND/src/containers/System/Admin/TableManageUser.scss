@@ -1,23 +1,61 @@
-.users-container{
-    padding-bottom: 20px;
-    
-    #customers{
-        th{
+.users-container {
+    padding-bottom: 10px;
+
+    .search {
+        border-radius: 20px;
+    }
+
+    #customers {
+        th {
             background-color: #2776bd;
         }
     }
 
-    .edit{
+    .edit {
         color: orange;
         cursor: pointer;
         padding: 5px;
         float: left;
     }
 
-    .delete{
+    .delete {
         color: red;
         cursor: pointer;
         padding: 5px;
         float: left;
     }
+}
+
+#user-manage {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.user-manage-table {
+    width: 1000px;
+    margin: auto;
+}
+
+#user-manage td,
+#user-manage th {
+    border-bottom: 1px solid rgb(223, 223, 223);
+    padding: 8px;
+}
+
+#user-manage tr:nth-child(even) {
+    background-color: none
+}
+
+#user-manage tr:hover {
+    color: linear-gradient(45deg, #6a78d1, #00a4bd);
+}
+
+#user-manage th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: none;
+    color: black;
+    font-weight: 700;
 }

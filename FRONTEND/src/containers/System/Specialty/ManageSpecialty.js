@@ -7,6 +7,8 @@ import './ManageSpecialty.scss'; import MarkdownIt from 'markdown-it';
 import { editSpecialty } from '../../../services/specialtyService';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
+import { toast } from "react-toastify";
+import { withRouter } from 'react-router';
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ManageSpecialty extends Component {
@@ -111,7 +113,8 @@ class ManageSpecialty extends Component {
         } else {
             img = this.state.specialty_image
         }
-        await editSpecialty({
+
+        let message = await editSpecialty({
             id: id,
             specialty_name: this.state.specialty_name,
             specialty_Markdown: this.state.contentMarkdown,
@@ -120,14 +123,20 @@ class ManageSpecialty extends Component {
             specialty_price: this.state.specialty_price,
         })
 
-        console.log(this.state.specialty_image.toString('binary'))
-        this.setState({
-            specialty_name: '',
-            specialty_image: '',
-            specialty_price: '',
-            contentHTML: '',
-            contentMarkdown: '',
-        })
+        if (message.errCode === 0) {
+            toast.success('Cập nhật Chuyên khoa thành công!');
+            // this.setState({
+            //     specialty_name: '',
+            //     specialty_image: '',
+            //     specialty_price: '',
+            //     contentHTML: '',
+            //     contentMarkdown: '',
+            // });
+
+        } else {
+            toast.error('Cập nhật Chuyên khoa thất bại!')
+        }
+
     }
 
     render() {
@@ -135,14 +144,17 @@ class ManageSpecialty extends Component {
         let { specialtyData } = this.props;
         return (
             <React.Fragment>
-                <div className="specialty-container">
-                    <div className="specialty-content">
-                        <div className='title text-center'>{this.props.isOpen ? <FormattedMessage id="menu.admin.edit-specialty" /> : <FormattedMessage id="menu.admin.manage-specialty" />} </div>
+                <div className="specialty-manage-container">
+                    <div className='specialty-manage-title text-center'><i className="fas fa-stethoscope"></i> {this.props.isOpen ? <FormattedMessage id="menu.admin.edit-specialty" /> : <FormattedMessage id="menu.admin.manage-specialty" />} </div>
+                    <div className="specialty-manage-content">
+
                         <div className='container'>
                             <div className='row'>
                                 <div className="form-group col-4">
                                     <label ><FormattedMessage id="specialty.specialty_name" /></label>
-                                    <input type="text" className="form-control" value={specialty_name} onChange={(e) => this.handleOnInput(e, 'specialty_name')} />
+                                    <input type="text" className="form-control" value={specialty_name}
+                                        onChange={(e) => this.handleOnInput(e, 'specialty_name')}
+                                        placeholder="Nhập tên Chuyên khoa" />
                                 </div>
                                 <div className="form-group col-4">
                                     <label><FormattedMessage id="specialty.specialty_icon" /></label>
@@ -155,6 +167,7 @@ class ManageSpecialty extends Component {
                                     <input type="number" className="form-control" id="inputPassword4" min="1000"
                                         value={specialty_price}
                                         onChange={(e) => this.handleOnInput(e, 'specialty_price')}
+                                        placeholder="Nhập giá khám theo Chuyên khoa"
                                     />
                                 </div>
                                 <div className="form-group col-12">
@@ -163,18 +176,21 @@ class ManageSpecialty extends Component {
                                         style={{ height: '300px' }}
                                         renderHTML={text => mdParser.render(text)}
                                         onChange={this.handleEditorChange}
-                                        value={this.state.contentMarkdown} />
+                                        value={this.state.contentMarkdown}
+                                        placeholder="Nhập mô tả của Chuyên khoa"
+                                    />
                                 </div>
-                                <div className="form-group col-12">
-                                    <div className='submit'>
+                                <div className="col-12 row">
+                                    <div className='col-9'></div>
+                                    <div className='col-3 form-group'>
                                         {!this.props.isOpen ?
                                             <button type="submit"
-                                                className="btn btn-info col-3"
-                                                onClick={() => this.saveDetailedInformation()} ><FormattedMessage id="user_manage.add" />
+                                                className="btn btn-primary"
+                                                onClick={() => this.saveDetailedInformation()} ><i className="fas fa-plus-circle"></i> <FormattedMessage id="common.add" />
                                             </button> :
                                             <button type="submit"
-                                                className="btn btn-info col-3"
-                                                onClick={() => this.updateDetailedInformation(specialtyData.id)} ><FormattedMessage id="user_manage.edit" />
+                                                className="btn btn-warning"
+                                                onClick={() => this.updateDetailedInformation(specialtyData.id)} ><i class="fas fa-pen-square"></i> <FormattedMessage id="common.update" />
                                             </button>}
 
                                     </div>
@@ -204,4 +220,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageSpecialty);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ManageSpecialty));

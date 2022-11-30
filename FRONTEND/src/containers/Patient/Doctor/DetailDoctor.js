@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import * as actions from '../../../store/actions';
 import HomeHeader from '../../Homepage/HomeHeader';
+import Footer from '../../Homepage/Footer';
 import { LANGUAGES, ADMIN_ACTION, CommonUtils } from '../../../utils';
 import './DetailedDoctor.scss';
 import DoctorSchedule from './DoctorSchedule';
@@ -14,6 +15,10 @@ class DetailDoctor extends Component {
             doctor: null,
             doctorID: null,
             specialty: '',
+            isLogin: '',
+            isLoginEmail: '',
+            isOpen: false
+
         }
     }
 
@@ -22,6 +27,13 @@ class DetailDoctor extends Component {
         this.setState({
             doctorID: this.props.match.params.id,
         })
+
+        if (sessionStorage.getItem("isLoginEmail")) {
+            this.setState({
+                isLogin: true,
+                isLoginEmail: sessionStorage.getItem("isLoginEmail"),
+            })
+        }
 
     }
 
@@ -44,24 +56,27 @@ class DetailDoctor extends Component {
         }
     }
 
+    openForm = () => {
+        this.setState({
+            isOpen: !this.state.isOpen
+        })
+    }
+
     render() {
-        let { doctor, specialty, doctorID } = this.state;
+        let { doctor, specialty, doctorID, isLogin, isEmailLogin, isOpen } = this.state;
         let doctor_name = '';
         let image = '';
         if (doctor && doctor.positionData && doctor.image) {
             doctor_name = `${doctor.positionData.value_vi} ${doctor.lastname} ${doctor.firstname}`;
             image = new Buffer(doctor.image, 'base64').toString('binary');
         }
-
-        console.log(specialty)
         return (
             <>
-                <HomeHeader isShow={false} />
+                <HomeHeader isShow={false} isOpen={isOpen} />
                 <div className="detailed-doctor-container">
                     <div className='detailed-doctor-content'>
                         <div className='detailed-doctor-infor'>
                             <div className='detailed-doctor-img' style={{ backgroundImage: `url(${image})` }}>
-
                             </div>
                             <div className='detailed-doctor-desc'>
                                 <div className='detaild-doctor-name'>
@@ -91,7 +106,11 @@ class DetailDoctor extends Component {
                         <div className='booking-doctor'>
                             <DoctorSchedule
                                 doctorId={doctorID}
-                                specialtyId={specialty ? specialty.id : 0} />
+                                specialtyId={specialty.id}
+                                isLogin={isLogin}
+                                isEmailLogin={isEmailLogin}
+                                openForm={this.openForm}
+                            />
                         </div>
                         <div className='detailed-doctor-markdown'>
                             {doctor && doctor.DetailedInformation
@@ -106,6 +125,7 @@ class DetailDoctor extends Component {
                         <div className='detailed-doctor-comment'></div>
                     </div>
                 </div>
+                <Footer />
             </>
         );
     }
@@ -114,7 +134,6 @@ class DetailDoctor extends Component {
 const mapStateToProps = state => {
     return {
         doctor: state.user.doctor,
-        isLoggedIn: state.user.isLoggedIn
     };
 };
 

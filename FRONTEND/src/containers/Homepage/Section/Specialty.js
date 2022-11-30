@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import icon from '../../../assets/images/icon/icon1.png';
+import { withRouter } from 'react-router';
 import { getSpecialty } from '../../../services/specialtyService';
 
 // import * as actions from "../../store/actions";
@@ -25,6 +25,12 @@ class Specialty extends Component {
         })
     }
 
+    getSpecialtyDetail = (id) => {
+        if (this.props.history) {
+            this.props.history.push(`/specialty-detail/${id}`);
+        }
+    }
+
     render() {
         var settings = {
             dots: false,
@@ -35,16 +41,22 @@ class Specialty extends Component {
         };
 
         let { specialtyArr } = this.state;
-        console.log(specialtyArr);
         return (
             <div className="specialty-homepage-container">
+
                 <div className='specialty-content'>
-                    <div className='title-section'>CHUYÊN KHOA</div>
+
+                    <div className='title-section'><FormattedMessage id="specialty.specialty" /></div>
+                    <div className='specialty-description'>
+                        <i>" {<FormattedMessage id="homecontent.logan" />} "</i>
+                    </div>
+                    {/* <div className='specialty-description'>Bệnh viện Đa Khoa MegaHealth tự hào với đa dạng các chuyên khoa khác nhau!</div> */}
                     <Slider {...settings}>
                         {specialtyArr && specialtyArr.map((item, index) => {
                             return (
-                                <div className='slider-child' key={index}>
-                                    <div className='slider-icon'>
+                                <div className='slider-child' key={index}
+                                >
+                                    <div className='slider-icon' onClick={() => this.getSpecialtyDetail(item.id)}>
                                         <div className='icon-img'
                                             style={{
                                                 backgroundImage: `url(${new Buffer(item.specialty_image, 'base64')})`,
@@ -60,7 +72,6 @@ class Specialty extends Component {
 
                     </Slider>
                 </div>
-
             </div>
         );
     }
@@ -77,4 +88,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Specialty);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Specialty));

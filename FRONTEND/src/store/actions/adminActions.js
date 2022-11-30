@@ -91,11 +91,11 @@ export const createUserStart = (data) => {
             let res = await createUserAPI(data);
             if (res && res.errCode === 0) {
                 dispatch(createUserSuccess());
-                toast.success("Create new user successfully!");
+                toast.success("Đăng ký tài khoản thành công, xin mời đăng nhập!");
                 dispatch(fetchAllUsersStart());
             } else {
                 dispatch(createUserFailed());
-                toast.error("Your Email is existed!")
+                toast.error("Email của bạn đã tồn tại, vui lòng nhập Email khác!")
             }
         } catch (e) {
             dispatch(createUserFailed());
@@ -119,8 +119,9 @@ export const fetchAllUsersStart = () => {
         try {
             dispatch({ type: actionTypes.FETCH_ALL_USER_START })
             let res = await getAllUsers('ALL');
-            if (res && res.errCode === 0) {
-                dispatch(fetchAllUsersSuccess(res.users.reverse()))
+            console.log('res', res)
+            if (res) {
+                dispatch(fetchAllUsersSuccess(res.reverse()))
             } else {
                 dispatch(fetchAllUsersFailed());
             }

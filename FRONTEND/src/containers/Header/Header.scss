@@ -4,13 +4,13 @@
     z-index: 99;
     display: flex;
     justify-content: space-between;
-    background: #3f86df;
+    background-image: linear-gradient(45deg, #6a78d1, #00a4bd);
     color: $common-text-color;
     height: 40px;
     position: relative;
 
     .header-tabs-container {
-        width: 800px;
+        width: 1200px;
         font-weight: 600;
     }
 

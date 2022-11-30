@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { LANGUAGES, CommonUtils, ADMIN_ACTION } from '../../../../utils';
-import * as actions from '../../../../store/actions';
+import * as actions from '../../../store/actions';
 import './DoctorManage.scss';
+import { LANGUAGES, ADMIN_ACTION, CommonUtils } from '../../../utils';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
-import { getDoctorById } from '../../../../services/userService';
-import { getSpecialty } from '../../../../services/specialtyService';
+import { getDoctorById } from '../../../services/userService';
+import { getSpecialty } from '../../../services/specialtyService';
 import Select from 'react-select';
 
 const mdParser = new MarkdownIt(/* Markdown-it options */);
@@ -53,8 +53,8 @@ class DoctorManage extends Component {
         if (data && data.length > 0) {
             data.map((doctor, index) => {
                 let obj = {};
-                let name_vi = `${doctor.lastname} ${doctor.firstname}`;
-                let name_en = `${doctor.firstname} ${doctor.lastname}`;
+                let name_vi = `${doctor.id} - ${doctor.lastname} ${doctor.firstname}`;
+                let name_en = `${doctor.id} - ${doctor.firstname} ${doctor.lastname}`;
                 obj.label = language === LANGUAGES.VI ? name_vi : name_en;
                 obj.value = doctor.id;
                 result.push(obj)
@@ -121,7 +121,6 @@ class DoctorManage extends Component {
                 return option.value === res.doctors.DoctorDetail.specialty_id
             })
 
-            console.log(selectedOptionSpe2)
             this.setState({
                 contentHTML: res.doctors.DetailedInformation.contentHTML,
                 contentMarkdown: res.doctors.DetailedInformation.contentMarkdown,
@@ -165,44 +164,54 @@ class DoctorManage extends Component {
         let { selectedOption, description, allDoctors, selectedOptionSpe, allSpecialtyName, specialty, oldDataDoctor } = this.state;
         return (
             <React.Fragment>
-                <div className="doctor-infor-container">
-                    <div className="doctor-infor-content">
-                        <div className='title text-center'>DOCTOR MANAGE</div>
-                        <div className='doctor-infor'>
-                            <div className='doctor-search'>
-                                <label>Tên bác sĩ</label>
-                                <Select
-                                    value={selectedOption}
-                                    onChange={this.handleChange}
-                                    options={allDoctors}
-                                />
-                                <label className='mt-3'>Chọn chuyên khoa</label>
-                                <Select
-                                    value={selectedOptionSpe}
-                                    onChange={this.handleChangeSelectSpe}
-                                    options={allSpecialtyName}
-                                />
+                <div className="doctor-manage-container">
+                    <div className='doctor-manage-title text-center'><i className="fas fa-user-md"></i> <FormattedMessage id="doctor-manage.doctor-management" /></div>
+                    <div className="doctor-manage-content">
+                        <div className='doctor-manage row'>
+                            <div className='col-6 form-group'>
+                                <div className='doctor-search'>
+                                    <label><FormattedMessage id="doctor-manage.doctor-name" /></label>
+                                    <Select
+                                        value={selectedOption}
+                                        onChange={this.handleChange}
+                                        options={allDoctors}
+                                    />
+                                    <label className='mt-3'><FormattedMessage id="specialty.specialty" /></label>
+                                    <Select
+                                        value={selectedOptionSpe}
+                                        onChange={this.handleChangeSelectSpe}
+                                        options={allSpecialtyName}
+                                    />
+                                </div>
                             </div>
-                            <div className='doctor-desc'>
-                                <label>Mô tả</label>
+                            <div className='col-6 form-group'>
+                                <label><FormattedMessage id="doctor-manage.doctor-description" /></label>
                                 <textarea
-                                    rows="5"
+                                    rows="4"
                                     value={description}
                                     onChange={(e) => this.handleTextArea(e)}
                                 ></textarea>
                             </div>
+
                         </div>
-                        <label>Thông tin chi tiết</label>
+
+                        <label><FormattedMessage id="doctor-manage.doctor-information" /></label>
                         <MdEditor
-                            style={{ height: '400px' }}
+                            style={{ height: '300px' }}
                             renderHTML={text => mdParser.render(text)}
                             onChange={this.handleEditorChange}
                             value={this.state.contentMarkdown} />
-                        <div className='submit'>
-                            <button type="submit"
-                                className="btn btn-info mt-3 col-3"
-                                onClick={() => this.saveDetailedInformation()} ><FormattedMessage id="user_manage.add" />
-                            </button>
+
+                        <div className='row'>
+                            <div className='col-9'></div>
+                            <div className='col-3 form-group'>
+                                <button
+                                    className="btn btn-primary mt-3"
+                                    onClick={() => this.saveDetailedInformation()} >
+                                    <i className="fas fa-user-plus"></i>
+                                    <FormattedMessage id="common.update" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

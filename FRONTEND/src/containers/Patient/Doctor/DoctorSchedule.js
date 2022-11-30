@@ -5,6 +5,8 @@ import { LANGUAGES } from '../../../utils';
 import * as actions from '../../../store/actions';
 import moment from 'moment';
 import localization from 'moment/locale/vi';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { getDoctorSchedule } from '../../../services/userService';
 import { getSpecialty } from '../../../services/specialtyService';
 import NumberFormat from 'react-number-format';
@@ -13,7 +15,6 @@ import './DoctorSchedule.scss';
 
 
 class DoctorSchedule extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -21,6 +22,9 @@ class DoctorSchedule extends Component {
             schedule: [],
             toDay: '',
             specialty: '',
+            isLogin: '',
+            isLoginEmail: '',
+            isToday: true
         }
     }
 
@@ -42,54 +46,83 @@ class DoctorSchedule extends Component {
             }
         }
 
-
-
         this.setState({
             arrDays: arrDays,
             toDay: arrDays[0].value,
 
         })
+
+        if (sessionStorage.getItem("isLoginEmail")) {
+            this.setState({
+                isLogin: true,
+                isLoginEmail: sessionStorage.getItem("isLoginEmail"),
+            })
+        }
+
+        let specialty = await getSpecialty(this.props.specialtyId);
+        this.setState({
+            specialty: specialty.specialty
+        })
     }
 
     componentDidUpdate = async (prevProps, prevState, snapshot) => {
-        if (prevProps.doctorId !== this.props.doctorId) {
-            let id = this.props.doctorId;
-            let schedule = await getDoctorSchedule(id, +this.state.toDay);
+        if (prevProps.specialtyId !== this.props.specialtyId) {
             let specialty = await getSpecialty(this.props.specialtyId);
             this.setState({
-                schedule: schedule.existedSchedule,
-                specialty: specialty.specialty ? specialty.specialty : 0
+                specialty: specialty.specialty
             })
+
+
         }
     }
 
     onChangeSelect = async (e) => {
-        if (this.props.doctorId && e.target.value) {
+        if (this.props.doctorId && e.target.value != this.state.toDay) {
             let id = this.props.doctorId;
             let schedule = await getDoctorSchedule(id, e.target.value);
             this.setState({
                 schedule: schedule.existedSchedule,
+                isToday: false
+            })
+        } else {
+            this.setState({
+                schedule: [],
+                isToday: true,
             })
         }
     }
 
-    bookMedicalService = (data) => {
-        if (this.props.history) {
+    bookMedicalService = async (data) => {
+        if (sessionStorage.getItem("isLoginEmail")) {
+            await this.setState({
+                isLogin: true,
+                isLoginEmail: sessionStorage.getItem("isLoginEmail"),
+            })
+        }
+
+        if (this.props.history && this.state.isLogin) {
             this.props.history.push('/booking', data);
+        } else {
+            toast.error("Vui lòng đăng nhập để đặt khám!");
+            this.props.openForm();
         }
     }
 
     render() {
-        let { arrDays, schedule, specialty, toDay, doctorId } = this.state;
+        let { arrDays, schedule, specialty, isToday } = this.state;
         let { language } = this.props;
         return (
             <div className='doctor-schedule-container'>
                 <div className='right-booking'>
                     <div className='right-booking-info'> THÔNG TIN CHI TIẾT ĐẶT KHÁM</div>
-                    <div>Giá khám: </div>
-                    <div className='right-booking-price'>
-                        <NumberFormat value={specialty.specialty_price} displayType={'text'} thousandSeparator={true} prefix={''} /> VNĐ
+                    <div className='row'>
+                        <div className='col-5'><i className="fas fa-hospital"></i> Phòng khám: <div className='right-booking-price'> {schedule.length > 0 ? schedule[0].room : '...'}</div></div>
+                        <div className='col-5'><i className="fas fa-tags"></i> Giá khám: <span><div className='right-booking-price'>
+                            <NumberFormat value={specialty ? specialty.specialty_price : 0} displayType={'text'} thousandSeparator={true} prefix={''} /> VNĐ
+                        </div></span></div>
+
                     </div>
+
                     <div>Chọn: Ngày muốn đăng ký, sau đó chọn khung giờ.</div>
 
                 </div>
@@ -113,15 +146,17 @@ class DoctorSchedule extends Component {
                         </select>
                     </div>
                     <div className='select-date-time'>
-                        {schedule && schedule.length > 0 && schedule.map((time, index) => {
-                            console.log(time)
-                            return (
-                                <button
+                        {schedule && schedule.length > 0
+                            && !isToday && schedule.map((time, index) => {
+                                return (<button
                                     className='select-date-time-btn'
-                                    onClick={() => this.bookMedicalService({ ...time, ...specialty })}>{time.scheduleData.value_en}</button>
-                            )
-                        })}
-                        {schedule && schedule.length === 0 && <div>Không có lịch hẹn, vui lòng chọn ngày khác!</div>}
+                                    onClick={() => this.bookMedicalService({ ...time, ...specialty })}>{time.scheduleData.value_en}
+                                </button>)
+
+                            })}
+                        {isToday && <div>Đặt lịch khám trước 01 ngày trong 01 phút với MegaHealth!</div>}
+                        {schedule && schedule.length === 0 && !isToday && <div className='red'>Bác sĩ không có lịch khám vào ngày này, vui lòng chọn ngày khác!</div>}
+
                     </div>
                 </div>
 

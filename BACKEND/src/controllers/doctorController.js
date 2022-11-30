@@ -28,10 +28,22 @@ let handleBulkCreate = async (req, res) => {
     return res.status(200).json(data);
 }
 
+let handleDeleteSchedule = async (req, res) => {
+    let id = req.query.id;
+    let data = await doctorService.handleDeleteSchedule(id);
+    return res.status(200).json(data);
+}
+
 let handleGetDoctorSchedule = async (req, res) => {
     let id = req.query.id;
     let day = req.query.day;
     let data = await doctorService.handleGetDoctorSchedule(id, day);
+    return res.status(200).json(data);
+}
+
+let handleGetDoctorBySpecialty = async (req, res) => {
+    let spe_id = req.query.id;
+    let data = await doctorService.handleGetDoctorBySpecialty(spe_id);
     return res.status(200).json(data);
 }
 
@@ -42,4 +54,6 @@ module.exports = {
     handleGetDoctorById,
     handleBulkCreate,
     handleGetDoctorSchedule,
+    handleGetDoctorBySpecialty,
+    handleDeleteSchedule
 }

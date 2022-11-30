@@ -1,0 +1,113 @@
+.divide-line {
+    border-bottom: 1px solid rgb(204, 204, 204);
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.blue-weight {
+    color: #0352cc;
+    font-weight: 600;
+}
+
+.btn-booking {
+    background-color: #4a89e3;
+    color: #f0f2f5;
+    margin: 5px;
+    border-radius: 3px;
+    border: none;
+    padding: 10px 40px;
+    font-weight: 700;
+    margin-left: auto;
+    height: 45px;
+
+    i {
+        -webkit-animation: style_bounceAlpha__2CGfK 1.3s linear .2s infinite;
+        animation: style_bounceAlpha__2CGfK 1.3s linear .2s infinite;
+        vertical-align: middle;
+        margin: 0 0 0 7px;
+    }
+
+}
+
+.btn-back {
+    background-color: #ededed;
+    color: #323232;
+    margin: 5px;
+    border-radius: 3px;
+    border: none;
+    padding: 10px 40px;
+    font-weight: 700;
+    margin-left: auto;
+    height: 45px;
+    margin-right: -150px;
+
+}
+
+input {
+    font-size: 16px !important;
+}
+
+select {
+    font-size: 16px !important;
+}
+
+.edit-icon {
+    color: orange;
+    cursor: pointer;
+    padding: 5px;
+    float: left;
+}
+
+.delete-icon {
+    color: red;
+    cursor: pointer;
+    padding: 5px;
+    float: left;
+}
+
+.view-icon {
+    color: rgb(52, 133, 255);
+    cursor: pointer;
+    padding: 5px;
+    float: left;
+}
+
+.check-icon {
+    color: rgb(44, 184, 44);
+    cursor: pointer;
+    padding: 5px;
+    float: left;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: none !important;
+}
+
+.btn-secondary:hover {
+    border-color: none !important;
+}
+
+.red {
+    color: rgb(255, 19, 67);
+}
+
+.blue {
+    color: #0352cc;
+}
+
+.form-label {
+    font-weight: 400 !important;
+}
+
+i {
+    margin-right: 10px;
+}
+
+.no-search {
+    text-align: center;
+    color: red;
+    padding: 15px 0px;
+    font-weight: 500;
+}

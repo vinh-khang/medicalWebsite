@@ -1,0 +1,47 @@
+.doctor-manage-container {
+    padding: 10px 200px;
+    background-color: #f0f2f5;
+    height: 100%;
+
+    input {
+        font-size: 16px;
+    }
+
+    .doctor-manage-title {
+        margin-bottom: 0px;
+        margin-top: 10px;
+        background: linear-gradient(45deg, #6a78d1, #00a4bd);
+        color: white;
+        padding: 10px;
+        border-radius: 5px 5px 0px 0px;
+        font-size: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-align: center
+    }
+
+    .doctor-manage-content {
+        padding: 20px 40px 20px 40px;
+        background-color: white;
+        border-radius: 0px 0px 5px 5px;
+        margin-bottom: 0px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+        label {
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            height: 55px;
+            text-align: center;
+            float: right;
+        }
+
+        textarea {
+            padding: 10px;
+        }
+
+
+    }
+
+}

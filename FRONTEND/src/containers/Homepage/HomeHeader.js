@@ -7,10 +7,8 @@ import banner from '../../assets/images/banner1.jpg';
 import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../utils';
 import { withRouter } from 'react-router';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, ModalHeader, ModalFooter, ModalBody } from 'reactstrap';
-import { handleLoginAPI } from '../../services/userService';
-// import Navigator from '../../components/Navigator';
-// // import { adminMenu } from './menuApp';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, ModalHeader, ModalBody, FormGroup, Label, Input } from 'reactstrap';
+import { handleLoginAPI, getUserByEmail } from '../../services/userService';
 import './Homepage.scss';
 
 class HomeHeader extends Component {
@@ -26,24 +24,32 @@ class HomeHeader extends Component {
             isLoginEmail: '',
             dropdownOpen: '',
             dropdownOpen2: '',
+            user: '',
+            checked: false
         }
     }
-    componentDidMount = () => {
+    componentDidMount = async () => {
         if (sessionStorage.getItem("isLoginEmail")) {
             this.setState({
                 isLogin: true,
                 isLoginEmail: sessionStorage.getItem("isLoginEmail"),
             })
+
+            let user = await getUserByEmail(sessionStorage.getItem("isLoginEmail"));
+            this.setState({
+                user: user.user
+            })
         }
+
+
     }
 
-    componentDidUpdate = () => {
-        // if (sessionStorage.getItem("isLoginEmail")) {
-        //     this.setState({
-        //         isLogin: true,
-        //         isLoginEmail: sessionStorage.getItem("isLoginEmail"),
-        //     })
-        // }
+    componentDidUpdate = async (prevProps, prevState, snapshot) => {
+        if (prevProps.isOpen !== this.props.isOpen) {
+            this.setState({
+                isOpen: this.props.isOpen
+            })
+        }
     }
 
     changeLanguage = (language) => {
@@ -58,7 +64,13 @@ class HomeHeader extends Component {
 
     openRegisterMedical = () => {
         if (this.props.history) {
-            this.props.history.push('/booking')
+            this.props.history.push('/user-register')
+        }
+    }
+
+    onShowPost = (type) => {
+        if (this.props.history) {
+            this.props.history.push(`/post/${type}`)
         }
     }
 
@@ -66,6 +78,20 @@ class HomeHeader extends Component {
         this.setState({
             isOpen: !this.state.isOpen
         })
+
+        if (sessionStorage.getItem("mg-user")) {
+            this.setState({
+                email: sessionStorage.getItem("mg-user"),
+                password: sessionStorage.getItem("mg-pass"),
+                checked: true
+            })
+        } else {
+            this.setState({
+                email: '',
+                password: '',
+                checked: false
+            })
+        }
     }
 
     toggle = () => {
@@ -82,13 +108,15 @@ class HomeHeader extends Component {
 
     onEmailInput = (e) => {
         this.setState({
-            email: e.target.value
+            email: e.target.value,
+            message: ''
         })
     }
 
     onPasswordInput = (e) => {
         this.setState({
-            password: e.target.value
+            password: e.target.value,
+            message: ''
         })
     }
 
@@ -96,14 +124,16 @@ class HomeHeader extends Component {
         this.setState({
             message: ''
         })
+
         try {
-            let data = await handleLoginAPI(this.state.email, this.state.password);
+            let data = await handleLoginAPI(this.state.email, this.state.password, 'HP');
             if (data && data.errCode !== 0) {
                 this.setState({
                     message: data.message
                 });
 
             }
+
             if (data && data.errCode === 0) {
                 this.setState({
                     isOpen: !this.state.isOpen,
@@ -111,7 +141,19 @@ class HomeHeader extends Component {
                     isLoginEmail: this.state.email,
                 })
 
-                sessionStorage.setItem('isLoginEmail', this.state.email)
+                sessionStorage.setItem('isLoginEmail', this.state.email);
+                if (this.state.checked) {
+                    sessionStorage.setItem('mg-user', this.state.email);
+                    sessionStorage.setItem('mg-pass', this.state.password);
+                } else {
+                    sessionStorage.removeItem('mg-user');
+                    sessionStorage.removeItem('mg-pass');
+                }
+
+                let user = await getUserByEmail(this.state.isLoginEmail);
+                this.setState({
+                    user: user.user
+                })
             }
         } catch (e) {
             if (e.response) {
@@ -119,7 +161,6 @@ class HomeHeader extends Component {
                     this.setState({
                         message: e.response.data.message
                     });
-
                 }
             }
         }
@@ -131,69 +172,69 @@ class HomeHeader extends Component {
             isLoginEmail: '',
         })
 
-        sessionStorage.removeItem('isLoginEmail')
+        sessionStorage.removeItem('isLoginEmail');
+        if (this.props.history) {
+            this.props.history.push('/homepage')
+        }
     }
+
+    getAllDoctor = () => {
+        if (this.props.history) {
+            this.props.history.push('/all-doctors')
+        }
+    }
+
+    onProfileTab = (tab) => {
+        if (this.props.history) {
+            this.props.history.push(`/${tab}`)
+        }
+    }
+
+    setChecked = () => {
+        this.setState({
+            checked: !this.state.checked
+        })
+    }
+
 
     render() {
         const { language, admin } = this.props;
-        const { search, isLoginEmail, isLogin } = this.state;
-        console.log(isLoginEmail)
+        const { isLogin, user, checked, email, password, message } = this.state;
+
         return (
             <Fragment>
                 <div className="homeheader-container">
                     <div className="homeheader-content">
-                        <div className="left-content" onClick={() => this.returnToHome()}>
+                        <div className="left-content col-3" onClick={() => this.returnToHome()}>
                             <div className="header-logo" ></div>
                         </div>
-                        <div className="right-content">
+                        <div className='col-2'></div>
+                        <div className="right-content col-7">
                             <div className="center-content">
-                                <div className="child-content"><FormattedMessage id="homeheader.intro" /></div>
-                                <div className="child-content">QUY TRÌNH</div>
-                                <div className="child-content"><FormattedMessage id="homeheader.manual" />
-                                </div>
+                                <div className="child-content" onClick={() => this.onShowPost('INTRO')}><FormattedMessage id="homeheader.intro" /></div>
+                                <div className="child-content" onClick={() => this.onShowPost('PROCEDURE')}><FormattedMessage id="homeheader.procedure" /></div>
+
+                                <div className="child-content" onClick={() => this.onShowPost('GUIDE')}><FormattedMessage id="homeheader.question" /></div>
                             </div>
 
-                            {/* <div className='header-service'>
-                                CHỌN <FormattedMessage id="homeheader.service" />
-                            </div> */}
-                            <Dropdown isOpen={this.state.dropdownOpen2} toggle={this.toggle2}
-                                className='header-service'>
-                                <DropdownToggle caret className='header-service'>
-                                    <FormattedMessage id="homeheader.service" />
-                                </DropdownToggle>
-                                <DropdownMenu>
-                                    <DropdownItem>Another Action</DropdownItem>
-
-                                    <DropdownItem>Another Action</DropdownItem>
-
-                                    <DropdownItem>Another Action</DropdownItem>
-
-                                </DropdownMenu>
-                            </Dropdown>
-                            {/* <input className='search' placeholder="Tìm kiếm" /> */}
-                            {/* <div className='search-btn'>
-                                    <i className="fas fa-search"></i>
-                                </div> */}
                             <div >
                                 <div className="header-language">
                                     <img className={language === LANGUAGES.VI ? "language-flag active" : "language-flag"} src={vnflag} alt="Logo" onClick={() => this.changeLanguage(LANGUAGES.VI)} />
                                     <img className={language === LANGUAGES.EN ? "language-flag active" : "language-flag"} src={usaflag} alt="Logo" onClick={() => this.changeLanguage(LANGUAGES.EN)} />
                                 </div>
                             </div>
-                            {/* 
-                            <div className='header-phone'>
-                                <FormattedMessage id="homeheader.phone" />: 0962 435 100
-                            </div> */}
+
                             {isLogin ? <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className='header-register'>
-                                <DropdownToggle caret className='header-register-btn'>
-                                    {isLoginEmail}
+                                <DropdownToggle caret className='header-register-btn' style={{ border: 'none !important' }}>
+                                    {user.firstname}
                                 </DropdownToggle>
                                 <DropdownMenu>
-                                    <DropdownItem header>Header</DropdownItem>
-                                    <DropdownItem disabled>Action</DropdownItem>
-                                    <DropdownItem>Another Action</DropdownItem>
+                                    <DropdownItem header><FormattedMessage id="homeheader.hello" /> <b>{user.firstname}</b></DropdownItem>
                                     <DropdownItem divider />
-                                    <DropdownItem onClick={() => this.onLogout()}>Đăng xuất</DropdownItem>
+                                    <DropdownItem onClick={() => this.onProfileTab('profile')}><i className="fas fa-address-book"></i><FormattedMessage id="homeheader.profile" /></DropdownItem>
+                                    <DropdownItem onClick={() => this.getAllDoctor()}><i className="fas fa-user-md"></i><FormattedMessage id="homeheader.booking" /></DropdownItem>
+                                    <DropdownItem divider />
+                                    <DropdownItem onClick={() => this.onLogout()}><i className="fas fa-power-off"></i><FormattedMessage id="homeheader.loggout" /></DropdownItem>
                                 </DropdownMenu>
                             </Dropdown> : <div className='header-register' onClick={() => this.openLogin()}>
                                 <FormattedMessage id="homeheader.login" />
@@ -202,8 +243,9 @@ class HomeHeader extends Component {
                     </div>
                 </div>
                 {this.props.isShow && (
-                    <div className='banner-content'>
-                        <img className="banner-image" src={banner} alt="Logo" />
+                    <div className='banner-content' style={{ backgroundImage: `url(${banner})` }}>
+                        <div className='banner-layer-blue'>
+                        </div>
                     </div>)
                 }
 
@@ -227,24 +269,41 @@ class HomeHeader extends Component {
                                     <div className="form-row">
                                         <div className='user-login-form'>
                                             <div className="form-group">
-                                                <label htmlFor="inputEmail4">Email</label>
+                                                <label>Email</label>
                                                 <input
                                                     type="email"
                                                     className="form-control user-login-input"
                                                     name="email"
                                                     placeholder="Vui lòng nhập Email"
                                                     onChange={(e) => this.onEmailInput(e)}
+                                                    value={email}
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label htmlFor="inputEmail4">Nhập mật khẩu</label>
+                                                <label>Nhập mật khẩu</label>
                                                 <input
                                                     type="password"
                                                     className="form-control user-login-input"
                                                     name="password"
                                                     placeholder="Vui lòng nhập mật khẩu"
                                                     onChange={(e) => this.onPasswordInput(e)}
+                                                    value={password}
                                                 />
+                                            </div>
+                                            <FormGroup check>
+                                                <Input
+                                                    type="checkbox"
+                                                    defaultChecked={checked}
+                                                    onChange={() => this.setChecked(!checked)}
+
+                                                />
+                                                {' '}
+                                                <Label check>
+                                                    Ghi nhớ tôi
+                                                </Label>
+                                            </FormGroup>
+                                            <div className='form-group mt-3'>
+                                                <span className='red'>{message ? message : ''}</span>
                                             </div>
 
                                             <button
@@ -257,78 +316,14 @@ class HomeHeader extends Component {
                                             <div
                                                 className='login-register'
                                                 onClick={() => this.openRegisterMedical()}>Chưa có tài khoản? Vui lòng <span>đăng ký</span></div>
-                                            {/*
-                                        <div className="form-group col-6 px-1">
-                                            <label htmlFor="inputPassword4">Password</label>
-                                            <input type="password" className="form-control" name="password" placeholder="Password"
-                                                onChange={(e) => this.handleInputEvent(e, 'password')}
-                                                value={password}
-                                                disabled
-                                            />
-                                        </div>
-                                        <div className="form-group col-6 px-1 mt-3">
-                                            <label htmlFor="inputEmail4">First name</label>
-                                            <input type="text" className="form-control" name="firstname" placeholder="First name"
-                                                onChange={(e) => this.handleInputEvent(e, 'firstname')}
-                                                value={firstname}
-                                            />
-                                        </div>
-                                        <div className="form-group col-6 px-1 mt-3">
-                                            <label htmlFor="inputPassword4">Last name</label>
-                                            <input type="text" className="form-control" name="lastname" placeholder="Last name"
-                                                onChange={(e) => this.handleInputEvent(e, 'lastname')}
-                                                value={lastname}
-                                            />
-                                        </div>
-                                        <div className="form-group col-12 mt-3 px-1">
-                                            <label htmlFor="inputAddress">Address</label>
-                                            <input type="text" className="form-control" name="address" placeholder="Address"
-                                                onChange={(e) => this.handleInputEvent(e, 'address')}
-                                                value={address}
-                                            />
-                                        </div>
-                                        <div className="form-group col-6 mt-3 px-1">
-                                            <label htmlFor="inputCity">Phone number</label>
-                                            <input type="text" className="form-control" name="phonenumber"
-                                                onChange={(e) => this.handleInputEvent(e, 'phonenumber')}
-                                                value={phonenumber}
-                                            />
-                                        </div> */}
-                                            {/* <div className="form-group col-3 mt-3 px-1">
-                                        <label>Gender</label>
-                                        <select name="gender" className="form-control">
-                                            <option selected value="1">Male</option>
-                                            <option value="2">Female</option>
-                                        </select>
-                                    </div>
-                                    <div className="form-group col-3">
-                                        <label>Role</label>
-                                        <select name="roleid" className="form-control">
-                                            <option selected>Admin</option>
-                                            <option >Doctor</option>
-                                            <option >Patient</option>
-                                        </select>
-                                    </div> */}
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </ModalBody>
-                    {/* <ModalFooter>
-                        <Button
-                            color="primary"
-                            onClick={() => { this.doEditUser() }}
-                            className="px-3"
-                        >
-                            Sửa
-                        </Button>
-                        {' '}
-                        <Button onClick={() => { this.toggle() }}
-                            className="px-3">
-                            Hủy
-                        </Button>
-                    </ModalFooter> */}
+
                 </Modal>
 
             </Fragment>

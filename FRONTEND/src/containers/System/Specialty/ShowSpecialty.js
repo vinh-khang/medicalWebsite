@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { getSpecialty, deleteSpecialty, editSpecialty } from '../../../services/specialtyService';
 import NumberFormat from 'react-number-format';
 import ManageSpecialty from './ManageSpecialty';
+import { withRouter } from 'react-router';
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 class ShowSpecialty extends Component {
@@ -88,9 +89,11 @@ class ShowSpecialty extends Component {
 
     editUser = async (id) => {
         let specialty = await getSpecialty(id);
+        let allSpecialty = await getSpecialty('ALL');
         this.setState({
             isOpen: !this.state.isOpen,
-            specialty: specialty.specialty
+            specialty: specialty.specialty,
+            allSpecialty: allSpecialty.specialty,
         })
     }
 
@@ -99,18 +102,19 @@ class ShowSpecialty extends Component {
         let { allSpecialty, isOpen, specialty, image_name } = this.state;
         return (
             <React.Fragment>
-                {isOpen && <div className="specialty-container"><button className='specialty-back-btn' onClick={() => this.editUser()}><i class="fas fa-arrow-left"></i> Quay lại</button></div>}
+                {isOpen && <div className="specialty-back-container"><button className='specialty-back-btn' onClick={() => this.editUser()}><i class="fas fa-chevron-left"></i> <FormattedMessage id="common.back" /></button></div>}
                 {isOpen && <ManageSpecialty isOpen={isOpen} specialtyData={specialty} />}
-                {!isOpen && <div className="specialty-container">
-                    <div className="specialty-content">
-                        <div className='title text-center'><FormattedMessage id="menu.admin.show-specialty" /></div>
+                {!isOpen && <div className="specialty-manage-container">
+                    <div className='specialty-manage-title text-center'><i class="fas fa-clipboard-list"></i> <FormattedMessage id="menu.admin.show-specialty" /></div>
+                    <div className="specialty-manage-content">
+
                         <div className='container'>
                             <div className='row'>
-
                                 <div className='specialty-table'>
                                     <table id="specialty">
                                         <thead>
                                             <tr>
+                                                <th><FormattedMessage id="common.order" /></th>
                                                 <th><FormattedMessage id="specialty.specialty_name" /></th>
                                                 <th><FormattedMessage id="specialty.specialty_price" /></th>
                                                 <th style={{ width: "150px" }}></th>
@@ -121,6 +125,7 @@ class ShowSpecialty extends Component {
                                                 allSpecialty && allSpecialty.map((spe, index) => {
                                                     return (
                                                         <tr key={index}>
+                                                            <td>{++index}</td>
                                                             <td>{spe.specialty_name}</td>
                                                             <td>{<NumberFormat value={spe.specialty_price} displayType={'text'} thousandSeparator={true} prefix={''} />} VNĐ</td>
                                                             <td>
@@ -160,4 +165,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShowSpecialty);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ShowSpecialty));

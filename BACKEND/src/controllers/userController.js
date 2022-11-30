@@ -3,15 +3,15 @@ import userService from "../services/userService";
 let handleLogin = async (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
-
+    let type = req.body.type;
     if (!email || !password) {
         return res.status(500).json({
             errCode: 1,
-            message: 'Missing Input',
+            message: 'Vui long nhập đủ thông tin đăng nhập!',
         })
     }
 
-    let userData = await userService.handleUserLogin(email, password);
+    let userData = await userService.handleUserLogin(email, password, type);
 
     return res.status(200).json({
         errCode: userData.errCode,
@@ -31,11 +31,7 @@ let handleGetAllUsers = async (req, res) => {
     }
     let users = await userService.getAllUsers(id);
 
-    return res.status(200).json({
-        errCode: 0,
-        errMessage: 'OK',
-        users
-    })
+    return res.status(200).json(users)
 }
 
 let handleCreateUser = async (req, res) => {
@@ -90,6 +86,17 @@ let handleCreateBooking = async (req, res) => {
     return res.status(200).json(message);
 }
 
+let handleGetBooking = async (req, res) => {
+    let message = await userService.getBooking(req.query.id, req.query.type);
+    return res.status(200).json(message);
+}
+
+let handleSetBooking = async (req, res) => {
+    let data = req.body;
+    let message = await userService.setBooking(data);
+    return res.status(200).json(message);
+}
+
 module.exports = {
     handleLogin,
     handleGetAllUsers,
@@ -99,4 +106,6 @@ module.exports = {
     handleGetAllcode,
     handleGetUserByEmail,
     handleCreateBooking,
+    handleGetBooking,
+    handleSetBooking,
 }

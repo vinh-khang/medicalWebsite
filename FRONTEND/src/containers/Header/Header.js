@@ -41,8 +41,6 @@ class Header extends Component {
     render() {
         const { processLogout, language, userInfo } = this.props;
         const { menuApp } = this.state;
-
-        console.log(userInfo);
         return (
             <>
                 <div className="header-container">
@@ -50,6 +48,7 @@ class Header extends Component {
                     <div className="header-tabs-container">
                         <Navigator menus={menuApp} />
                     </div>
+                    {/* <MenuAdmin></MenuAdmin> */}
 
                     <div className="header-language">
                         <span className='header-admin'><FormattedMessage id="login.welcome" />{userInfo && userInfo ? userInfo.firstname : ''} !</span>
@@ -69,7 +68,6 @@ class Header extends Component {
 
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
         userInfo: state.user.userInfo,
     };

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from 'react-router-dom';
-import UserManage from '../containers/System/UserManage';
 import UserRedux from '../containers/System/Admin/UserRedux';
-import DoctorManage from '../containers/System/Admin/Doctor/DoctorManage';
+import DoctorManage from '../containers/System/Doctor/DoctorManage';
 import ManageSpecialty from '../containers/System/Specialty/ManageSpecialty';
 import ShowSpecialty from '../containers/System/Specialty/ShowSpecialty';
 import Header from '../containers/Header/Header';
 import ManageSchedule from '../containers/System/Doctor/ManageSchedule';
-import ClinicIntro from '../containers/System/Clinic/ClinicIntro';
+import ClinicPost from '../containers/System/Clinic/ClinicPost';
+import BookingSchedule from '../containers/System/Booking/BookingSchedule';
+import Footer from '../containers/Homepage/Footer';
 
 class System extends Component {
     render() {
@@ -18,18 +19,25 @@ class System extends Component {
                 {this.props.isLoggedIn && <Header />}
                 <div className="system-container">
                     <div className="system-list">
-                        <Switch>
-                            <Route path="/system/crud-user" component={UserManage} />
-                            <Route path="/system/user-redux" component={UserRedux} />
-                            <Route path="/system/manage-doctor" component={DoctorManage} />
-                            <Route path="/system/manage-schedule" component={ManageSchedule} />
-                            <Route path="/system/manage-specialty" component={ManageSpecialty} />
-                            <Route path="/system/show-specialty" component={ShowSpecialty} />
-                            <Route path="/system/clinic-intro" exact component={(ClinicIntro)} />
-                            <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
-                        </Switch>
+                        {this.props.userInfo.role_id === 'R2' ?
+                            <Switch>
+                                <Route path="/system/doctor-schedule-management" component={ManageSchedule} />
+                                <Route path="/system/booking-info" exact component={(BookingSchedule)} />
+                                <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
+                            </Switch>
+                            :
+                            <Switch>
+                                <Route path="/system/user-management" component={UserRedux} />
+                                <Route path="/system/doctor-management" component={DoctorManage} />
+                                <Route path="/system/doctor-schedule-management" component={ManageSchedule} />
+                                <Route path="/system/manage-specialty" component={ManageSpecialty} />
+                                <Route path="/system/show-specialty" component={ShowSpecialty} />
+                                <Route path="/system/clinic-post-management" exact component={(ClinicPost)} />
+                                <Route path="/system/booking-info" exact component={(BookingSchedule)} />
+                                <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
+                            </Switch>}
                     </div>
-                </div>
+                </div>{this.props.isLoggedIn && <Footer />}
             </React.Fragment>
         );
     }
@@ -38,7 +46,8 @@ class System extends Component {
 const mapStateToProps = state => {
     return {
         systemMenuPath: state.app.systemMenuPath,
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo,
     };
 };
 

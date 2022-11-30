@@ -3,26 +3,37 @@
         "register": "ĐĂNG KÝ KHÁM",
         "phone": "TỔNG ĐÀI TƯ VẤN",
         "intro": "Giới thiệu",
+        "procedure": "Quy trình",
+        "question": "Thắc mắc",
         "service": "DỊCH VỤ",
         "specialist": "CHUYÊN KHOA",
         "team": "ĐỘI NGŨ BÁC SĨ",
         "manual": "Hướng dẫn",
         "search": "Tìm kiếm",
-        "login": "Đăng nhập"
+        "login": "Đăng nhập",
+        "hello": "Xin chào,",
+        "profile": "Hồ sơ bệnh nhân",
+        "loggout": "Đăng xuất",
+        "booking": "Khám theo bác sĩ"
     },
     "homecontent": {
-        "top_doctor": "Bác sĩ nổi bật trong tuần"
+        "top_doctor": "Bác sĩ nổi bật trong tuần",
+        "logan": "MegaHealth tự hào với đa dạng các chuyên khoa uy tín và chất lượng hàng đầu!",
+        "logan_2": "Sức khỏe tốt và trí tuệ minh mẫn là hai điều hạnh phúc nhất của cuộc đời!"
     },
     "common": {
         "add": "Thêm",
         "edit": "Sửa",
+        "update": "Cập nhật",
         "delete": "Xóa",
         "decentralize": "Phân quyền",
         "close": "Đóng",
         "save": "Lưu",
+        "back": "Quay lại",
         "refresh": "Refresh",
         "accept": "Chấp nhận",
         "confirm": "Xác nhận",
+        "complete": "Hoàn thành",
         "confirm-this-task": "Bạn có chắc chắn thực hiện tác vụ này?",
         "fail-to-load-data": "Không thể tải về dữ liệu",
         "unknown-error": "Có lỗi xảy ra",
@@ -31,7 +42,22 @@
         "forbiden-request": "Thông tin truyền vào không hợp lệ",
         "fail-to-load-all-code": "Không thể tải về dữ liệu allcode",
         "sum": "Tổng",
-        "date-range-invalid": "Khoảng thời gian không hợp lệ"
+        "date-range-invalid": "Khoảng thời gian không hợp lệ",
+        "order": "STT",
+        "filter-by-doctor": "Lọc theo bác sĩ",
+        "filter-by-status": "Lọc theo trạng thái",
+        "filter-by-date": "Lọc theo ngày",
+        "cancel-filter": "Hủy bộ lọc",
+        "code": "Mã đơn",
+        "date": "Ngày",
+        "time": "Thời gian",
+        "room": "Phòng",
+        "price": "Giá",
+        "new-booking": "Lịch hẹn mới",
+        "accepted-booking": "Đã xác nhận",
+        "finished": "Đã khám xong",
+        "cancelled": "Đã hủy",
+        "all": "Tất cả"
     },
     "login": {
         "login": "Đăng nhập",
@@ -55,18 +81,22 @@
         },
         "admin": {
             "user": "Người dùng",
+            "doctor": "Bác sĩ",
             "clinic": "Phòng khám",
             "specialty": "Chuyên khoa",
-            "handbook": "Cẩm nang",
+            "booking": "Đặt khám",
             "user": "Người dùng",
             "crud-user": "CRUD người dùng",
-            "crud-redux": "CRUD Redux",
+            "create-user": "Tạo người dùng mới",
+            "user-management": "Quản lí tài khoản",
             "manage-admin": "Quản lý admin",
             "manage-doctor": "Quản lý Bác sĩ",
             "manage-specialty": "Thêm Chuyên khoa",
             "edit-specialty": "Cập nhật Chuyên khoa",
             "show-specialty": "Xem Chuyên khoa",
-            "clinic-intro": "Giới thiệu",
+            "clinic-post-management": "Quản lý bài viết",
+            "booking-info": "Lịch đặt khám",
+            "booking-management": "Quản lý danh sách đặt khám",
             "manage-handbook": "Quản lý Cẩm nang"
         },
         "doctor": {
@@ -75,11 +105,11 @@
     },
     "user_manage": {
         "firstname": "Tên",
-        "lastname": "Họ",
+        "lastname": "Họ và chữ lót",
         "phone": "SĐT",
         "address": "Địa chỉ",
         "gender": "Giới tính",
-        "position": "Vị trí",
+        "position": "Học vị",
         "role": "Vai trò",
         "image": "Ảnh",
         "add": "Thêm",
@@ -87,12 +117,33 @@
         "edit_title": "CẬP NHẬT THÔNG TIN NGƯỜI DÙNG",
         "upload": "Tải ảnh",
         "create": "Tạo người dùng mới",
-        "edit": "Cập nhật"
+        "edit": "Cập nhật tài khoản",
+        "view-users": "Xem tất cả tài khoản",
+        "user-information": "THÔNG TIN TẤT CẢ TÀI KHOẢN",
+        "no-search": "Không tìn thấy kết quả tìm kiếm"
     },
     "specialty": {
         "specialty_name": "Tên Chuyên khoa",
         "specialty_icon": "Icon Chuyên khoa",
         "specialty_price": "Giá khám",
-        "specialty_info": "Thông tin Chuyên khoa"
+        "specialty_info": "Thông tin Chuyên khoa",
+        "specialty": "Chuyên khoa"
+    },
+    "doctor-manage": {
+        "doctor-management": "Quản lý bác sĩ",
+        "doctor-name": "Tên bác sĩ",
+        "doctor-description": "Mô tả bác sĩ",
+        "doctor-information": "Thông tin bác sĩ",
+        "manage-schedule": "Quản lý lịch khám",
+        "date-schedule": "Chọn ngày xếp lịch",
+        "time-schedule": "Chọn thời gian xếp lịch",
+        "room-schedule": "Chọn phòng khám",
+        "selected-time": "Thời gian đã chọn"
+    },
+    "clinic": {
+        "clinic-post-management": "Quản lý bài viết",
+        "clinic-post-name": "Tiêu đề",
+        "clinic-post-type": "Loại bài viết",
+        "clinic-post-content": "Nội dung bài viết"
     }
 }

@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import * as actions from "../../store/actions";
 import HomeHeader from './HomeHeader';
 import Specialty from './Section/Specialty';
-import Services from './Section/Services';
+import HomePost from './Section/HomePost';
 import Doctors from './Section/Doctors';
-// import Navigator from '../../components/Navigator';
-// // import { adminMenu } from './menuApp';
+import Footer from './Footer';
+
+import thongtin from '../../assets/images/thongtin.jpg';
 import './Homepage.scss';
 
 class Homepage extends Component {
@@ -19,8 +20,12 @@ class Homepage extends Component {
             <div>
                 <HomeHeader isShow={true} />
                 <Specialty />
-                <Services />
+
                 <Doctors />
+                <HomePost />
+                <img src={thongtin} className="hp-schedule"></img>
+
+                <Footer />
             </div>
         );
     }

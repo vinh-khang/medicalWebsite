@@ -1,12 +1,28 @@
-.specialty-container {
-    padding: 10px 150px;
+.specialty-manage-container {
+    padding: 10px 200px;
     background-color: #f0f2f5;
     height: 100%;
 
-    .specialty-content {
-        padding: 20px 40px;
+    input {
+        font-size: 16px;
+    }
+
+    .specialty-manage-title {
+        margin-bottom: 0px;
+        margin-top: 10px;
+        background: linear-gradient(45deg, #6a78d1, #00a4bd);
+        color: white;
+        padding: 10px;
+        border-radius: 5px 5px 0px 0px;
+        font-size: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .specialty-manage-content {
+        padding: 20px 40px 40px 40px;
         background-color: white;
-        border-radius: 5px;
+        border-radius: 0px 0px 5px 5px;
         margin-bottom: 40px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 
@@ -14,27 +30,14 @@
             font-weight: 600;
         }
 
-        .submit {
-            display: flex;
 
-            .btn-info {
-                height: 35px;
-                margin-left: auto;
-                margin-right: 0;
-                text-align: center;
-            }
+        .btn {
+            height: 55px;
+            margin-right: 0;
+            text-align: center;
         }
 
-        .title {
-            margin-bottom: 20px;
-            margin-top: 0px;
-            background: #3f86df;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        .specialty {
+        .specialty-manage-title {
             display: flex;
             gap: 20px;
             margin-bottom: 20px;
@@ -43,13 +46,6 @@
                 width: 30%;
             }
 
-            .doctor-desc {
-                width: 70%;
-
-                textarea {
-                    width: 100%;
-                }
-            }
         }
 
         .edit {

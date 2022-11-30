@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         max_number: DataTypes.INTEGER,
         date: DataTypes.DATE,
         time_type: DataTypes.STRING,
-        doctor_id: DataTypes.INTEGER
+        doctor_id: DataTypes.INTEGER,
+        room: DataTypes.INTEGER,
     }, {
         sequelize,
         modelName: 'Schedule',

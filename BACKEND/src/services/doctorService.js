@@ -95,6 +95,11 @@ let createDetailedInfoDoctor = (data) => {
                         doctor_id: data.doctor_id,
                     })
 
+                    await db.DoctorDetail.destroy({
+                        where: { doctor_id: data.doctor_id },
+                        raw: false
+                    })
+
                     await db.DoctorDetail.create({
                         doctor_id: data.doctor_id,
                         specialty_id: data.specialty_id,
@@ -195,25 +200,12 @@ let handleBulkCreate = async (data) => {
                 })
             }
 
-            let existedSchedule = await db.Schedule.findAll({
+            await db.Schedule.destroy({
                 where: { doctor_id: schedule[0].doctor_id, date: new Date(schedule[0].date) },
-                attributes: ['doctor_id', 'date', 'time_type', 'max_number'],
-                raw: true
             })
 
-            if (existedSchedule && existedSchedule.length > 0) {
-                existedSchedule.map((item, index) => {
-                    item.date = new Date(item.date).getTime();
-                    return item;
-                })
-            }
-
-            let createdValue = _.differenceWith(schedule, existedSchedule, (a, b) => {
-                return a.time_type === b.time_type && a.date === b.date;
-            })
-
-            if (createdValue && createdValue.length > 0) {
-                await db.Schedule.bulkCreate(createdValue);
+            if (schedule && schedule.length > 0) {
+                await db.Schedule.bulkCreate(schedule);
             }
 
             resolve({
@@ -249,11 +241,142 @@ let handleGetDoctorSchedule = async (id, day) => {
     })
 }
 
+let handleGetDoctorBySpecialty = async (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (id !== 'ALL') {
+                let data0 = await db.DoctorDetail.findAll({
+                    raw: true,
+                    nest: true,
+                    include: [
+                        { model: db.User, attributes: ['firstname', 'lastname', 'image', 'id', 'gender'] },
+                        { model: db.Specialty, attributes: ['specialty_name', 'specialty_price'] }
+                    ],
+                    where: { specialty_id: id }
+                })
+
+                let i = 0;
+                let data = [];
+                data0.map(async (item, index) => {
+                    let gender = await db.Allcode.findOne({
+                        where: { keyMap: item.User.gender },
+                        raw: true
+                    })
+
+                    item.gender_value = gender.value_vi;
+                    i++;
+                    data.push(item);
+                    if (data0.length === i) {
+                        resolve({
+                            errCode: 0,
+                            errMessage: 'OK',
+                            data,
+                        })
+                    }
+
+                })
+            } else {
+                let data0 = await db.DoctorDetail.findAll({
+                    raw: true,
+                    nest: true,
+                    include: [
+                        { model: db.User, attributes: ['firstname', 'lastname', 'image', 'id', 'gender'] },
+                        { model: db.Specialty, attributes: ['specialty_name', 'specialty_price'] }
+                    ],
+                })
+
+                let i = 0;
+                let data = [];
+                data0.map(async (item, index) => {
+                    let gender = await db.Allcode.findOne({
+                        where: { keyMap: item.User.gender },
+                        raw: true
+                    })
+
+
+
+                    item.gender_value = gender.value_vi;
+                    i++;
+                    data.push(item);
+                    if (data0.length === i) {
+                        resolve({
+                            errCode: 0,
+                            errMessage: 'OK',
+                            data,
+                        })
+                    }
+
+                })
+            }
+
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
+let getDoctorByEmail = (email) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let doctors = await db.User.findOne({
+                where: { email: email },
+                attributes: {
+                    exclude: ['password']
+                },
+                include: [
+                    { model: db.Allcode, as: 'positionData', attributes: ['value_en', 'value_vi'] },
+                    { model: db.DetailedInformation, attributes: ['contentHTML', 'contentMarkdown', 'description'] },
+                    { model: db.DoctorDetail, attributes: ['doctor_email', 'specialty_email'] }
+                ],
+                raw: true,
+                nest: true
+            });
+
+            if (!doctors) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Doctors is not existed!!!',
+                    doctors: {},
+                });
+            }
+
+            resolve({
+                errCode: 0,
+                errMessage: 'OK',
+                doctors,
+            });
+        }
+        catch (e) {
+            reject(e);
+        }
+    })
+}
+
+let handleDeleteSchedule = async (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.Schedule.destroy({
+                where: { id: id }
+            })
+            resolve({
+                errCode: 0,
+                errMessage: 'OK',
+            })
+
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
 module.exports = {
     getTopDoctor,
     getAllDoctor,
     createDetailedInfoDoctor,
     getDoctorById,
     handleBulkCreate,
-    handleGetDoctorSchedule
+    handleGetDoctorSchedule,
+    handleGetDoctorBySpecialty,
+    getDoctorByEmail,
+    handleDeleteSchedule
 }

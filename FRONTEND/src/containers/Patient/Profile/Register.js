@@ -22,7 +22,6 @@ class Register extends Component {
 
     render() {
         let { time } = this.props.location.state.date;
-        console.log(this.props.location.state.date)
         return (
             <>
                 <HomeHeader isShow={false} />

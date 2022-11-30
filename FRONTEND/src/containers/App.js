@@ -6,7 +6,7 @@ import { history } from '../redux'
 import { ToastContainer } from 'react-toastify';
 import { userIsAuthenticated, userIsNotAuthenticated } from '../hoc/authentication';
 import { path } from '../utils'
-import Home from '../routes/Home';
+
 import Login from './Auth/Login';
 import DetailDoctor from './Patient/Doctor/DetailDoctor';
 import Homepage from './Homepage/Homepage';
@@ -15,9 +15,14 @@ import Booking from './Patient/Booking/Booking';
 import BookingInfo from './Patient/Booking/BookingInfo';
 import PatientLogin from './Patient/Login/PatientLogin';
 import ManageSchedule from './System/Doctor/ManageSchedule';
-import ClinicIntro from './System/Clinic/ClinicIntro';
+import ClinicPost from './System/Clinic/ClinicPost';
+import Post from './Patient/Post/Post';
+import SpecialtyDetailed from './Patient/Specialty/SpecialtyDetailed';
+import AllDoctor from './Patient/Doctor/AllDoctor';
+import Profile from './Patient/Profile/Profile';
 import _ from 'lodash';
 import { CustomToastCloseButton } from '../components/CustomToast';
+import './commonStyle.scss';
 
 class App extends Component {
 
@@ -39,6 +44,12 @@ class App extends Component {
         this.handlePersistorState();
     }
 
+    componentDidUpdate = () => {
+        if (history.action === "POP") {
+            history.replace(history.location.pathname, path.HOME);
+        }
+    }
+
     render() {
         let { userInfo } = this.props;
         return (
@@ -47,14 +58,18 @@ class App extends Component {
                     <div className="main-container">
                         <span className="content-container">
                             <Switch>
-                                <Route path={path.HOME} exact component={(Home)} />
+                                <Route path={path.HOME} exact component={(Homepage)} />
                                 <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                                 <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
                                 <Route path={path.HOMEPAGE} exact component={(Homepage)} />
                                 <Route path="/doctor/:id" exact component={(DetailDoctor)} />
                                 <Route path="/booking" exact component={(BookingInfo)} />
                                 <Route path="/user-login" exact component={(PatientLogin)} />
-
+                                <Route path="/user-register" exact component={(Booking)} />
+                                <Route path="/post/:type" exact component={(Post)} />
+                                <Route path="/specialty-detail/:id" exact component={(SpecialtyDetailed)} />
+                                <Route path="/all-doctors" exact component={(AllDoctor)} />
+                                <Route path="/profile" exact component={(Profile)} />
                             </Switch>
                         </span>
 

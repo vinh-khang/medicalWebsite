@@ -16,12 +16,11 @@
 }
 
 #specialty tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: none
 }
 
 #specialty tr:hover {
-    background-color: rgb(240, 240, 240);
-    color: #3f86df;
+    color: linear-gradient(45deg, #6a78d1, #00a4bd);
 }
 
 #specialty th {
@@ -33,8 +32,22 @@
     font-weight: 700;
 }
 
-.specialty-back-btn {
-    background-color: none;
-    border: none;
-    color: #3f86df;
+.specialty-back-container {
+    width: 100%;
+    background-color: linear-gradient(45deg, #6a78d1, #00a4bd);
+    padding: 0px 200px;
+
+    .specialty-back-btn {
+        background-color: #5295e6;
+        border: none;
+        color: white;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 5px 5px 0px 0px;
+
+        i {
+            margin-right: 5px;
+        }
+
+    }
 }
